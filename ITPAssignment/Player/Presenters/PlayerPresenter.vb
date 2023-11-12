@@ -1,6 +1,6 @@
 ﻿Public Class PlayerPresenter
-	Private View As IPlayerView
-	Private Model As PlayerModel
+	Private ReadOnly View As IPlayerView
+	Private ReadOnly Model As PlayerModel
 
 	Public Sub New(View As IPlayerView, Model As PlayerModel)
 		Me.View = View
@@ -20,7 +20,9 @@
 		Next
 		' Add unlocked rooms to inventory
 		For Each Room In Model.UnlockedRooms
-			Dim listViewItem As New ListViewItem({Room.GetName, "Unlocked"}, View.InventoryGroups.Item("gpUnlockedRooms"))
+			' If room puzzle solved, "Unlocked", else, "Puzzled"
+			Dim RoomStatus = If(Room.HasPuzzleSolved, "Unlocked", "Puzzled")
+			Dim listViewItem As New ListViewItem({Room.GetName, RoomStatus}, View.InventoryGroups.Item("gpUnlockedRooms"))
 			View.Inventory.Add(listViewItem)
 		Next
 	End Sub

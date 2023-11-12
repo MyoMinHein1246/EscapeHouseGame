@@ -163,7 +163,8 @@ Partial Class GameForm
 		' 
 		txtAnswer.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
 		txtAnswer.Font = New Font("Bookman Old Style", 12.0F, FontStyle.Regular, GraphicsUnit.Point)
-		txtAnswer.Location = New Point(8, 312)
+		txtAnswer.Location = New Point(9, 340)
+		txtAnswer.Margin = New Padding(4, 2, 4, 2)
 		txtAnswer.MaxLength = 100
 		txtAnswer.Name = "txtAnswer"
 		txtAnswer.Size = New Size(450, 31)

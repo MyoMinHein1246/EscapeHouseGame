@@ -53,7 +53,7 @@
 			View.SecretAnswer = ""
 			' Show noti of room's text
 			NotiPresenter.AddNoti(Room.GetText)
-			NotiPresenter.ShowNoti()
+			NotiPresenter.ShowNoti(True)
 
 			If Not Room.HasPuzzleSolved Then
 				' Ask puzzle question if any
@@ -79,7 +79,7 @@
 		View.SecretQuestion = FormatText(Question)
 		View.SecretAnswer = ""
 		NotiPresenter.AddNoti("Hmm... I need to solve this problem to enter other rooms.")
-		NotiPresenter.ShowNoti()
+		NotiPresenter.ShowNoti(True)
 	End Sub
 
 	Public Sub TryUnlock()
@@ -107,19 +107,21 @@
 			View.SecretAnswer = ""
 			' Show noti
 			NotiPresenter.AddNoti("Yes! I solved it. Smart me.")
-			NotiPresenter.ShowNoti()
+			' Show noti of room's text
+			NotiPresenter.AddNoti(PlayerModel.GetCurrentRoom.GetText)
+			NotiPresenter.ShowNoti(True)
 		Else
 			' Show noti
 			NotiPresenter.AddNoti("Wrong! Ahh... I should try again.")
-			NotiPresenter.ShowNoti()
 			' AskQuestion(PlayerModel.GetCurrentRoom.GetPuzzle.Question)
 
 			' If player might need hint
 			If PlayerModel.GetCurrentRoom.GetPuzzle.ShouldShowHint Then
 				' Show hint
 				NotiPresenter.AddNoti("HINT: " & PlayerModel.GetCurrentRoom.GetPuzzle.Hint)
-				NotiPresenter.ShowNoti(True)
 			End If
+
+			NotiPresenter.ShowNoti(True)
 		End If
 
 	End Sub
