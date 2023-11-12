@@ -68,11 +68,13 @@
 			msg = "Ahh... Wrong one!"
 		Else
 			' Use the item
-			msg = "Yes! It worked! I can enter now."
+			msg = "Yes! It worked!"
 			item.Use()
 
 			If Not GetHasUnlocked Then
 				msg += " Are you kidding me? I need more items!!!"
+			Else
+				msg += " I can enter now."
 			End If
 		End If
 

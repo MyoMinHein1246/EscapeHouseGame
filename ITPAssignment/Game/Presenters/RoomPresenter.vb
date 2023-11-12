@@ -19,7 +19,7 @@
 
 		' Unlock and enter the default room
 		Me.NotiPresenter.AddNoti("You are trapped in a room inside a house.\n You need to find your way out.\n The room you are in has THREE (3) doors, there might be something shiny on the floor just in front of you.")
-		UnlockAndEnterRoom(Nothing, GetDefaultRoom.GetName)
+		EnterRoom(GetDefaultRoom)
 	End Sub
 
 	Public Function EnterRoom() As Boolean
@@ -63,6 +63,10 @@
 		End If
 
 		' If not unlocked
+		' Update View
+		View.SecretQuestion = "Please enter the item name to be used: "
+		View.SecretAnswer = ""
+		' Noti player
 		UnlockRoom(Nothing, Room.GetName)
 		Return False
 	End Function
@@ -138,8 +142,8 @@
 			Return False
 		End If
 
-		' If Unlocked
 		Dim msg = ""
+		' Try unlock
 		Dim result = Room.UnlockRoom(item, msg)
 
 		NotiPresenter.AddNoti(msg)
