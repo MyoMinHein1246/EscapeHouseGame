@@ -12,6 +12,18 @@
 	Public Overridable Sub Use()
 		LifeTime -= 1
 	End Sub
+
+	Public Overrides Function Equals(obj As Object) As Boolean
+		' Try to cast the obj to ItemModel
+		Dim item = TryCast(obj, ItemModel)
+		' If succeed
+		If Not IsNothing(item) Then
+			' Compare their name
+			Return Me.GetName.ToUpper.Equals(item.GetName.ToUpper)
+		End If
+
+		Return False
+	End Function
 End Class
 
 Public Class KeyItemModel

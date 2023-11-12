@@ -17,80 +17,71 @@
 			Return AvailableRooms
 		End Get
 	End Property
-	Private SecretQuestion As String
-	Public ReadOnly Property GetSecretQuestion() As String
+	Private Puzzle As PuzzleModel
+	Public ReadOnly Property GetPuzzle() As PuzzleModel
 		Get
-			Return SecretQuestion
+			Return Puzzle
 		End Get
 	End Property
-	Public ReadOnly Property HasQA As String
+	Public ReadOnly Property HasPuzzle() As Boolean
 		Get
-			Return SecretQuestion.Trim().Length > 0
+			Return Not IsNothing(Puzzle)
 		End Get
 	End Property
-	Private SecretAnswer As String
-	Public ReadOnly Property GetSecretAnswer() As String
+	Public ReadOnly Property HasPuzzleSolved() As Boolean
 		Get
-			Return SecretAnswer
+			Return Not HasPuzzle OrElse Puzzle.GetHasSolved
 		End Get
 	End Property
-	Private Hint As String
-	Public ReadOnly Property GetHint() As String
-		Get
-			Return Hint
-		End Get
-	End Property
-	Private RewardItems As List(Of ItemModel)
-	Public ReadOnly Property GetRewardItems() As List(Of ItemModel)
-		Get
-			Return RewardItems
-		End Get
-	End Property
-	Private RequiredItems As List(Of ItemModel)
-	Public ReadOnly Property GetRequiredItems() As List(Of ItemModel)
+	Private RequiredItems As Stack(Of ItemModel)
+	Public ReadOnly Property GetRequiredItems() As Stack(Of ItemModel)
 		Get
 			Return RequiredItems
 		End Get
 	End Property
-	Private HasUnlocked As Boolean = False
 	Public ReadOnly Property GetHasUnlocked() As Boolean
 		Get
-			Return HasUnlocked
+			Return IsNothing(RequiredItems) OrElse RequiredItems.Count = 0
 		End Get
 	End Property
 
-	Public ReadOnly Property HasRewardItems As String
-		Get
-			Return SecretQuestion.Trim().Length > 0
-		End Get
-	End Property
-	Public ReadOnly Property HasRequiredItems As String
-		Get
-			Return SecretQuestion.Trim().Length > 0
-		End Get
-	End Property
-
-	Public Function Unlock(SecretAnswer As String) As Boolean
-		' If Secret Answer from player matches secret answer of this room
-		If Not HasUnlocked And Me.SecretAnswer.Equals(SecretAnswer.Trim()) Then
-			' Unlock the room
-			HasUnlocked = True
-			Return True
-		End If
+	Public Function UnlockRoom(ByRef item As ItemModel, ByRef msg As String) As Boolean
 
 		' If already unlocked
-		If HasUnlocked Then
+		If GetHasUnlocked Then
 			' Do nothing
+			msg = "Ohh... It's already unlocked. Perfect!"
 			Return True
 		End If
 
-		Return False
+		' If keys or codes are required but player has none or item cannot be used
+		If IsNothing(item) OrElse Not item.CanUse Then
+			msg = "Locked! Hmm... Seems like I will need a specific item for this one."
+			Return False
+		End If
+
+		' Compare required item name with player's item
+		Dim GetCurrentRequiredItem = RequiredItems.Pop
+		If Not GetCurrentRequiredItem.Equals(item) Then
+			' Failed to unlock, readd the requirement
+			RequiredItems.Push(GetCurrentRequiredItem)
+			msg = "Ahh... Wrong one!"
+		Else
+			' Use the item
+			msg = "Yes! It worked!"
+			item.Use()
+
+			If Not GetHasUnlocked Then
+				msg += " Are you kidding me? I need more items!!!"
+			End If
+		End If
+
+		' Whether or not player has unlocked all requirements
+		Return GetHasUnlocked
 	End Function
 
-	Public Function GetRewards()
-		If HasUnlocked Then
-			' TODO: Return rewards
-		End If
+	Public Function SolvePuzzle(Answer As String) As Boolean
+		Return Puzzle.Solve(Answer)
 	End Function
 
 	Public Class RoomBuilder
@@ -98,10 +89,8 @@
 		Private Text As String
 		' TODO: add room picture
 		Private AvailableRooms As List(Of String)
-		Private SecretQuestion As String
-		Private SecretAnswer As String
-		Private Hint As String
-		Public OnRoomEntered As Action
+		Private Puzzle As PuzzleModel
+		Private RequiredItems As Stack(Of ItemModel)
 
 		Public Function WithName(Name As String) As RoomBuilder
 			Me.Name = Name
@@ -121,16 +110,13 @@
 			Return Me
 		End Function
 
-		Public Function WithSecretQA(SecretQuestion As String, SecretAnswer As String, Optional Hint As String = "") As RoomBuilder
-			Me.Hint = Hint
-			Me.SecretAnswer = SecretAnswer
-			Me.SecretQuestion = SecretQuestion
-
+		Public Function WithPuzzle(Puzzle As PuzzleModel) As RoomBuilder
+			Me.Puzzle = Puzzle
 			Return Me
 		End Function
 
-		Public Function WithOnRoomEntered(ByVal OnRoomEntered As Action)
-			Me.OnRoomEntered = OnRoomEntered
+		Public Function WithRequiredItems(ByRef RequiredItems As Stack(Of ItemModel)) As RoomBuilder
+			Me.RequiredItems = RequiredItems
 
 			Return Me
 		End Function
@@ -138,14 +124,25 @@
 		Public Function Build() As RoomModel
 			Dim Room As New RoomModel With {
 				.AvailableRooms = AvailableRooms,
-				.Hint = Hint,
 				.Name = Name,
-				.SecretAnswer = SecretAnswer,
-				.SecretQuestion = SecretQuestion,
+				.Puzzle = Puzzle,
+				.RequiredItems = RequiredItems,
 				.Text = Text
 			}
 
 			Return AddRoom(Room)
 		End Function
 	End Class
+
+	Public Overrides Function Equals(obj As Object) As Boolean
+		' Try to cast the obj to RoomModel
+		Dim room = TryCast(obj, RoomModel)
+		' If succeed
+		If Not IsNothing(room) Then
+			' Compare their name
+			Return Me.GetName.ToUpper.Equals(room.GetName.ToUpper)
+		End If
+
+		Return False
+	End Function
 End Class

@@ -10,25 +10,11 @@
 		Me.SoundPresenter = SoundPresenter
 	End Sub
 
-	Public Sub AddNoti(NotiText As String, Optional NewLineIndicator As String = "\n", Optional ReplaceIndicator As Boolean = True)
-		If Not IsNothing(NotiText) AndAlso Not NotiText.Trim().Length = 0 Then
-			If NewLineIndicator.Length > 0 Then
-				Dim FormattedText = ""
-				For Each text As String In NotiText.Split(NewLineIndicator, StringSplitOptions.TrimEntries)
-					FormattedText += text
-
-					If Not ReplaceIndicator Then
-						FormattedText += NewLineIndicator
-					End If
-
-					FormattedText += " " & vbCrLf
-				Next
-
-				NotiTexts.Enqueue(FormattedText)
-			Else
-				NotiTexts.Enqueue(NotiText)
-			End If
-
+	Public Sub AddNoti(NotiText As String, Optional Format As Boolean = True)
+		If Format Then
+			NotiTexts.Enqueue(FormatText(NotiText))
+		Else
+			NotiTexts.Enqueue(NotiText)
 		End If
 	End Sub
 

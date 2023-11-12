@@ -13,7 +13,7 @@
 
 	Public Property CurrentToRoomName As String Implements IRoomView.CurrentToRoomName
 		Get
-			Return cmbToRoom.SelectedItem.ToString()
+			Return cmbToRoom.SelectedItem?.ToString()
 		End Get
 		Set(value As String)
 			cmbToRoom.SelectedItem = value
@@ -73,6 +73,8 @@
 		InitializeComponent()
 
 		' Add any initialization after the InitializeComponent() call.
+		GenerateRooms()
+
 		PlayerModel = New PlayerModel(Nothing)
 
 		SoundPresenter = New SoundPresenter(My.Resources.ResourceManager)
@@ -85,6 +87,6 @@
 	End Sub
 
 	Private Sub btnSubmitAns_Click(sender As Object, e As EventArgs) Handles btnSubmitAns.Click
-		RoomPresenter.AnswerQuestion()
+		RoomPresenter.TryUnlock()
 	End Sub
 End Class

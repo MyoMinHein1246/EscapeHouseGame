@@ -21,7 +21,7 @@
 
 		' Unlock and enter the default room
 		Me.NotiPresenter.AddNoti("You are trapped in a room inside a house.\n You need to find your way out.\n The room you are in has THREE (3) doors, there might be something shiny on the floor just in front of you.")
-		UnlockAndEnter("", GetDefaultRoom.GetName)
+		UnlockAndEnterRoom(Nothing, GetDefaultRoom.GetName)
 	End Sub
 
 	Public Function EnterRoom() As Boolean
@@ -30,6 +30,12 @@
 
 		' If room valid
 		If Not IsNothing(Room) Then
+			' If room is not default room and current room puzzle is not solved
+			If Not PlayerModel.GetCurrentRoom.HasPuzzleSolved And Not Room.Equals(GetDefaultRoom) Then
+				SolveCurrentRoomPuzzle()
+				Return False
+			End If
+
 			' Try to enter the room
 			Return EnterRoom(Room)
 		End If
@@ -44,16 +50,14 @@
 
 			View.CurrentRoomName = Room.GetName
 			View.AvailableRoomsName = Room.GetAvailableRooms
+			View.SecretQuestion = ""
+			View.SecretAnswer = ""
 			NotiPresenter.AddNoti(Room.GetText)
 			NotiPresenter.ShowNoti()
+			If Room.HasPuzzle Then
+				AskQuestion(Room.GetPuzzle.Question)
+			End If
 			Return True
-		ElseIf Room.HasQA Then
-			' If not unlocked and has secret questions
-			' Ask secret question
-			AskQuestion(Room.GetSecretQuestion)
-		Else
-			' If not unlocked but doesn't require questions
-			UnlockAndEnter("", Room.GetName)
 		End If
 
 		Return False
@@ -64,17 +68,50 @@
 			Return
 		End If
 
-		View.SecretQuestion = Question
+		View.SecretQuestion = FormatText(Question)
 		View.SecretAnswer = ""
-		NotiPresenter.AddNoti("Hmm... I need to solve this problem to enter the room.")
+		NotiPresenter.AddNoti("Hmm... I need to solve this problem to enter other rooms.")
 		NotiPresenter.ShowNoti()
 	End Sub
 
-	Public Sub AnswerQuestion()
-		UnlockAndEnter(View.SecretAnswer, View.CurrentToRoomName)
+	Public Sub TryUnlock()
+		' If current room's puzzle has been solved, allow player to move to other rooms
+		If PlayerModel.GetCurrentRoom.HasPuzzleSolved Then
+			UnlockRoom(PlayerModel.GetItem(View.SecretAnswer), View.CurrentToRoomName)
+		Else
+			' If not, ask to solve puzzle
+			SolveCurrentRoomPuzzle()
+		End If
 	End Sub
 
-	Public Function UnlockAndEnter(Answer As String, RoomName As String) As Boolean
+	Private Sub SolveCurrentRoomPuzzle()
+
+		If PlayerModel.GetCurrentRoom.SolvePuzzle(View.SecretAnswer) Then
+			NotiPresenter.AddNoti("Yes! I solved it. Smart me.")
+			NotiPresenter.ShowNoti(True)
+		Else
+			NotiPresenter.AddNoti("Wrong! Ahh... I should try again.")
+			NotiPresenter.ShowNoti()
+			' AskQuestion(PlayerModel.GetCurrentRoom.GetPuzzle.Question)
+
+			If PlayerModel.GetCurrentRoom.GetPuzzle.ShouldShowHint Then
+				NotiPresenter.AddNoti(PlayerModel.GetCurrentRoom.GetPuzzle.Hint)
+			End If
+		End If
+
+	End Sub
+
+	Public Function UnlockAndEnterRoom(item As ItemModel, RoomName As String) As Boolean
+		If UnlockRoom(item, RoomName) Then
+			' Get current specified room
+			Dim Room As RoomModel = GetRoom(RoomName)
+
+			Return EnterRoom(Room)
+		End If
+		Return False
+	End Function
+
+	Public Function UnlockRoom(item As ItemModel, RoomName As String) As Boolean
 		' Get current specified room
 		Dim Room As RoomModel = GetRoom(RoomName)
 
@@ -83,15 +120,14 @@
 		End If
 
 		' If Unlocked
-		If Room.Unlock(Answer) Then
-			EnterRoom(Room)
+		Dim msg = ""
+		If Room.UnlockRoom(item, msg) Then
 			Return True
 		Else
-			NotiPresenter.AddNoti("Ahh... Incorrect!!! I should try again.")
-			NotiPresenter.AddNoti(Room.GetHint)
+			NotiPresenter.AddNoti(msg)
+			NotiPresenter.ShowNoti()
+			Return False
 		End If
-
-		Return False
 	End Function
 
 	Private Function GetToRoom() As RoomModel
