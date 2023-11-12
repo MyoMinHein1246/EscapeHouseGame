@@ -140,13 +140,11 @@
 
 		' If Unlocked
 		Dim msg = ""
-		If Room.UnlockRoom(item, msg) Then
-			Return True
-		Else
-			NotiPresenter.AddNoti(msg)
-			NotiPresenter.ShowNoti()
-			Return False
-		End If
+		Dim result = Room.UnlockRoom(item, msg)
+
+		NotiPresenter.AddNoti(msg)
+		NotiPresenter.ShowNoti()
+		Return result
 	End Function
 
 	Private Function GetToRoom() As RoomModel

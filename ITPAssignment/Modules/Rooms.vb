@@ -56,5 +56,12 @@ Module Rooms
 							.WithAvailableRooms(New List(Of String) From {GetDefaultRoom.GetName, LivingRoom.GetName}) _
 							.WithPuzzle(KeyboardPuzzle) _
 							.Build()
+
+		Dim ComputerRoom = New RoomBuilder() _
+							.WithName("Computer Room") _
+							.WithText("Holy! Look at all those broken computers. Hmm... What might I find here?") _
+							.WithAvailableRooms(New List(Of String) From {GetDefaultRoom.GetName, LivingRoom.GetName, "Bathroom 2"}) _
+							.WithRequiredItems(New Stack(Of ItemModel)({ComputerRoomKey})) _
+							.Build()
 	End Sub
 End Module

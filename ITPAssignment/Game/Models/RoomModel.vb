@@ -56,7 +56,7 @@
 
 		' If keys or codes are required but player has none or item cannot be used
 		If IsNothing(item) OrElse Not item.CanUse Then
-			msg = "Locked! Hmm... Seems like I will need a specific item for this one."
+			msg = $"'{Name}' is locked! Hmm... Seems like I will need a specific item for this one."
 			Return False
 		End If
 
@@ -68,7 +68,7 @@
 			msg = "Ahh... Wrong one!"
 		Else
 			' Use the item
-			msg = "Yes! It worked!"
+			msg = "Yes! It worked! I can enter now."
 			item.Use()
 
 			If Not GetHasUnlocked Then
@@ -85,12 +85,12 @@
 	End Function
 
 	Public Class RoomBuilder
-		Private Name As String
-		Private Text As String
+		Private Name As String = ""
+		Private Text As String = ""
 		' TODO: add room picture
-		Private AvailableRooms As List(Of String)
-		Private Puzzle As PuzzleModel
-		Private RequiredItems As Stack(Of ItemModel)
+		Private AvailableRooms As List(Of String) = Nothing
+		Private Puzzle As PuzzleModel = Nothing
+		Private RequiredItems As Stack(Of ItemModel) = Nothing
 
 		Public Function WithName(Name As String) As RoomBuilder
 			Me.Name = Name
