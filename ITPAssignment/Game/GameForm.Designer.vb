@@ -44,7 +44,7 @@ Partial Class GameForm
 		' lblRoomName
 		' 
 		lblRoomName.AutoSize = True
-		lblRoomName.Font = New Font("Bookman Old Style", 20.0F, FontStyle.Bold, GraphicsUnit.Point)
+		lblRoomName.Font = New Font("Bookman Old Style", 20F, FontStyle.Bold, GraphicsUnit.Point)
 		lblRoomName.Location = New Point(15, 5)
 		lblRoomName.Margin = New Padding(6, 0, 6, 0)
 		lblRoomName.Name = "lblRoomName"
@@ -55,7 +55,7 @@ Partial Class GameForm
 		' lblNoti
 		' 
 		lblNoti.AutoSize = True
-		lblNoti.Font = New Font("Comic Sans MS", 12.0F, FontStyle.Regular, GraphicsUnit.Point)
+		lblNoti.Font = New Font("Comic Sans MS", 12F, FontStyle.Regular, GraphicsUnit.Point)
 		lblNoti.Location = New Point(13, 6)
 		lblNoti.Margin = New Padding(5, 0, 5, 0)
 		lblNoti.Name = "lblNoti"
@@ -80,7 +80,7 @@ Partial Class GameForm
 		' 
 		lblNotiCount.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left
 		lblNotiCount.AutoEllipsis = True
-		lblNotiCount.Font = New Font("Segoe UI", 9.0F, FontStyle.Regular, GraphicsUnit.Point)
+		lblNotiCount.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point)
 		lblNotiCount.Location = New Point(6, 85)
 		lblNotiCount.Margin = New Padding(4, 0, 4, 0)
 		lblNotiCount.Name = "lblNotiCount"
@@ -105,7 +105,7 @@ Partial Class GameForm
 		' 
 		Label1.Anchor = AnchorStyles.Top Or AnchorStyles.Right
 		Label1.AutoSize = True
-		Label1.Font = New Font("Bookman Old Style", 12.0F, FontStyle.Bold, GraphicsUnit.Point)
+		Label1.Font = New Font("Bookman Old Style", 12F, FontStyle.Bold, GraphicsUnit.Point)
 		Label1.Location = New Point(538, 48)
 		Label1.Margin = New Padding(5, 0, 5, 0)
 		Label1.Name = "Label1"
@@ -117,7 +117,7 @@ Partial Class GameForm
 		' 
 		cmbToRoom.Anchor = AnchorStyles.Top Or AnchorStyles.Right
 		cmbToRoom.DropDownStyle = ComboBoxStyle.DropDownList
-		cmbToRoom.Font = New Font("Bookman Old Style", 12.0F, FontStyle.Regular, GraphicsUnit.Point)
+		cmbToRoom.Font = New Font("Bookman Old Style", 12F, FontStyle.Regular, GraphicsUnit.Point)
 		cmbToRoom.FormattingEnabled = True
 		cmbToRoom.Location = New Point(538, 74)
 		cmbToRoom.Margin = New Padding(5, 2, 5, 2)
@@ -128,7 +128,7 @@ Partial Class GameForm
 		' btnEnterRoom
 		' 
 		btnEnterRoom.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-		btnEnterRoom.Font = New Font("Bookman Old Style", 12.0F, FontStyle.Regular, GraphicsUnit.Point)
+		btnEnterRoom.Font = New Font("Bookman Old Style", 12F, FontStyle.Regular, GraphicsUnit.Point)
 		btnEnterRoom.Location = New Point(538, 109)
 		btnEnterRoom.Margin = New Padding(4, 2, 4, 2)
 		btnEnterRoom.Name = "btnEnterRoom"
@@ -154,11 +154,11 @@ Partial Class GameForm
 		' btnSubmitAns
 		' 
 		btnSubmitAns.Dock = DockStyle.Bottom
-		btnSubmitAns.Font = New Font("Bookman Old Style", 12.0F, FontStyle.Regular, GraphicsUnit.Point)
-		btnSubmitAns.Location = New Point(8, 375)
+		btnSubmitAns.Font = New Font("Bookman Old Style", 12F, FontStyle.Regular, GraphicsUnit.Point)
+		btnSubmitAns.Location = New Point(8, 363)
 		btnSubmitAns.Margin = New Padding(4, 2, 4, 2)
 		btnSubmitAns.Name = "btnSubmitAns"
-		btnSubmitAns.Size = New Size(640, 28)
+		btnSubmitAns.Size = New Size(640, 40)
 		btnSubmitAns.TabIndex = 3
 		btnSubmitAns.Text = "Submit"
 		btnSubmitAns.UseVisualStyleBackColor = True
@@ -166,18 +166,18 @@ Partial Class GameForm
 		' txtAnswer
 		' 
 		txtAnswer.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
-		txtAnswer.Font = New Font("Bookman Old Style", 12.0F, FontStyle.Regular, GraphicsUnit.Point)
-		txtAnswer.Location = New Point(11, 279)
+		txtAnswer.Font = New Font("Bookman Old Style", 12F, FontStyle.Regular, GraphicsUnit.Point)
+		txtAnswer.Location = New Point(13, 328)
 		txtAnswer.Margin = New Padding(5, 2, 5, 2)
 		txtAnswer.MaxLength = 100
 		txtAnswer.Name = "txtAnswer"
-		txtAnswer.Size = New Size(632, 31)
+		txtAnswer.Size = New Size(630, 31)
 		txtAnswer.TabIndex = 2
 		' 
 		' lblSecurityQuestion
 		' 
 		lblSecurityQuestion.AutoSize = True
-		lblSecurityQuestion.Font = New Font("Bookman Old Style", 12.0F, FontStyle.Regular, GraphicsUnit.Point)
+		lblSecurityQuestion.Font = New Font("Bookman Old Style", 12F, FontStyle.Regular, GraphicsUnit.Point)
 		lblSecurityQuestion.Location = New Point(9, 27)
 		lblSecurityQuestion.Margin = New Padding(4, 0, 4, 0)
 		lblSecurityQuestion.Name = "lblSecurityQuestion"
@@ -188,7 +188,7 @@ Partial Class GameForm
 		' lblSecurity
 		' 
 		lblSecurity.AutoSize = True
-		lblSecurity.Font = New Font("Bookman Old Style", 14.0F, FontStyle.Bold, GraphicsUnit.Point)
+		lblSecurity.Font = New Font("Bookman Old Style", 14F, FontStyle.Bold, GraphicsUnit.Point)
 		lblSecurity.Location = New Point(9, 4)
 		lblSecurity.Margin = New Padding(4, 0, 4, 0)
 		lblSecurity.Name = "lblSecurity"
@@ -207,7 +207,7 @@ Partial Class GameForm
 		' 
 		' GameForm
 		' 
-		AutoScaleDimensions = New SizeF(13.0F, 23.0F)
+		AutoScaleDimensions = New SizeF(13F, 23F)
 		AutoScaleMode = AutoScaleMode.Font
 		ClientSize = New Size(1203, 676)
 		Controls.Add(btnPlayer)
@@ -218,7 +218,7 @@ Partial Class GameForm
 		Controls.Add(picRoom)
 		Controls.Add(Panel1)
 		Controls.Add(lblRoomName)
-		Font = New Font("Bookman Old Style", 12.0F, FontStyle.Regular, GraphicsUnit.Point)
+		Font = New Font("Bookman Old Style", 12F, FontStyle.Regular, GraphicsUnit.Point)
 		FormBorderStyle = FormBorderStyle.Fixed3D
 		HelpButton = True
 		Margin = New Padding(6, 2, 6, 2)
