@@ -88,14 +88,14 @@
 
 	Private Sub SolveCurrentRoomPuzzle()
 		' If current room is none, or has no puzzle or has puzzle solved
-		If IsNothing(PlayerModel.GetCurrentRoom) OrElse Not PlayerModel.GetCurrentRoom.HasPuzzleSolved Then
+		If IsNothing(PlayerModel.GetCurrentRoom) OrElse PlayerModel.GetCurrentRoom.HasPuzzleSolved Then
 			' Do nothing
 			Return
 		End If
 
 		If PlayerModel.GetCurrentRoom.SolvePuzzle(View.SecretAnswer) Then
 			NotiPresenter.AddNoti("Yes! I solved it. Smart me.")
-			NotiPresenter.ShowNoti(True)
+			NotiPresenter.ShowNoti()
 		Else
 			NotiPresenter.AddNoti("Wrong! Ahh... I should try again.")
 			NotiPresenter.ShowNoti()
