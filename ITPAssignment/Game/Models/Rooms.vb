@@ -1,11 +1,11 @@
-﻿Imports ITPAssignment.Room
+﻿Imports ITPAssignment.RoomModel
 
 Module Rooms
-	Public GameRooms As New Dictionary(Of String, Room)
+	Public GameRooms As New Dictionary(Of String, RoomModel)
 
-	Public ReadOnly Property GetDefaultRoom As Room
+	Public ReadOnly Property GetDefaultRoom As RoomModel
 
-	Public Function GetRoom(RoomName As String) As Room
+	Public Function GetRoom(RoomName As String) As RoomModel
 		If GameRooms.ContainsKey(RoomName) Then
 			Return GameRooms(RoomName)
 		End If
@@ -13,7 +13,7 @@ Module Rooms
 		Return Nothing
 	End Function
 
-	Public Function AddRoom(Room As Room) As Room
+	Public Function AddRoom(Room As RoomModel) As RoomModel
 		' If this is new room
 		If Not GameRooms.ContainsKey(Room.GetName) Then
 			' If adding succeed
@@ -29,7 +29,7 @@ Module Rooms
 
 		Dim Hall = New RoomBuilder() _
 							.WithName("Hall") _
-							.WithText("You are trapped in a room inside a house.\n You need to find your way out.\n The room you are in has THREE (3) doors, there might be something shiny on the floor just in front of you.") _
+							.WithText("What a Hall!") _
 							.WithAvailableRooms(New List(Of String) From {"Living Room", "Store Room", "Kitchen"}) _
 							.WithSecretQA("", "") _
 							.Build

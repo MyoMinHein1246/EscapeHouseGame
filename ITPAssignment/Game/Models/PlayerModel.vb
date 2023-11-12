@@ -1,6 +1,6 @@
 ﻿Public Class PlayerModel
-	Private CurrentRoom As Room
-	Public ReadOnly Property GetCurrentRoom() As Room
+	Private CurrentRoom As RoomModel
+	Public ReadOnly Property GetCurrentRoom() As RoomModel
 		Get
 			Return CurrentRoom
 		End Get
@@ -8,11 +8,11 @@
 
 	' TODO: items
 
-	Public Sub New(CurrentRoom As Room)
+	Public Sub New(CurrentRoom As RoomModel)
 		Me.CurrentRoom = CurrentRoom
 	End Sub
 
-	Public Sub ChangeRoom(Room As Room)
+	Public Sub ChangeRoom(Room As RoomModel)
 		CurrentRoom = Room
 	End Sub
 End Class

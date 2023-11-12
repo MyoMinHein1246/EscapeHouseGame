@@ -1,50 +1,72 @@
-﻿Public Class Room
+﻿Public Class RoomModel
 	Private Name As String
-	Public Property GetName() As String
+	Public ReadOnly Property GetName() As String
 		Get
 			Return Name
 		End Get
-		Private Set(value As String)
-			Name = value
-		End Set
 	End Property
 	Private Text As String
-	Public Property GetText() As String
+	Public ReadOnly Property GetText() As String
 		Get
 			Return Text
 		End Get
-		Private Set(ByVal value As String)
-			Text = value
-		End Set
 	End Property
-
-	' TODO: add room picture
-
 	Private AvailableRooms As List(Of String)
-	Public Property GetAvailableRooms() As List(Of String)
+	Public ReadOnly Property GetAvailableRooms() As List(Of String)
 		Get
 			Return AvailableRooms
 		End Get
-		Private Set(ByVal value As List(Of String))
-			AvailableRooms = value
-		End Set
+	End Property
+	Private SecretQuestion As String
+	Public ReadOnly Property GetSecretQuestion() As String
+		Get
+			Return SecretQuestion
+		End Get
 	End Property
 	Public ReadOnly Property HasQA As String
 		Get
 			Return SecretQuestion.Trim().Length > 0
 		End Get
 	End Property
-
-	Public SecretQuestion As String
-	Public SecretAnswer As String
-	Public Hint As String
+	Private SecretAnswer As String
+	Public ReadOnly Property GetSecretAnswer() As String
+		Get
+			Return SecretAnswer
+		End Get
+	End Property
+	Private Hint As String
+	Public ReadOnly Property GetHint() As String
+		Get
+			Return Hint
+		End Get
+	End Property
+	Private RewardItems As List(Of ItemModel)
+	Public ReadOnly Property GetRewardItems() As List(Of ItemModel)
+		Get
+			Return RewardItems
+		End Get
+	End Property
+	Private RequiredItems As List(Of ItemModel)
+	Public ReadOnly Property GetRequiredItems() As List(Of ItemModel)
+		Get
+			Return RequiredItems
+		End Get
+	End Property
 	Private HasUnlocked As Boolean = False
-
-	Public OnRoomEntered As Action
-
 	Public ReadOnly Property GetHasUnlocked() As Boolean
 		Get
 			Return HasUnlocked
+		End Get
+	End Property
+
+	Public ReadOnly Property HasRewardItems As String
+		Get
+			Return SecretQuestion.Trim().Length > 0
+		End Get
+	End Property
+	Public ReadOnly Property HasRequiredItems As String
+		Get
+			Return SecretQuestion.Trim().Length > 0
 		End Get
 	End Property
 
@@ -113,12 +135,11 @@
 			Return Me
 		End Function
 
-		Public Function Build() As Room
-			Dim Room As New Room With {
+		Public Function Build() As RoomModel
+			Dim Room As New RoomModel With {
 				.AvailableRooms = AvailableRooms,
 				.Hint = Hint,
 				.Name = Name,
-				.OnRoomEntered = OnRoomEntered,
 				.SecretAnswer = SecretAnswer,
 				.SecretQuestion = SecretQuestion,
 				.Text = Text
