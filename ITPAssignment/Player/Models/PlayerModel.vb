@@ -1,6 +1,7 @@
 ﻿Public Class PlayerModel
 	Private CurrentRoom As RoomModel
-	Private ReadOnly Items As List(Of ItemModel)
+	Public ReadOnly Items As List(Of ItemModel)
+	Public ReadOnly UnlockedRooms As List(Of RoomModel)
 	Private ReadOnly NotiPresenter As NotiPresenter
 
 	Public ReadOnly Property GetCurrentRoom() As RoomModel
@@ -9,8 +10,19 @@
 		End Get
 	End Property
 
-	Public Sub New(NotiPresenter As NotiPresenter, CurrentRoom As RoomModel)
-		Items = New List(Of ItemModel)()
+	Public Sub New(NotiPresenter As NotiPresenter, CurrentRoom As RoomModel, Optional Items As List(Of ItemModel) = Nothing, Optional UnlockedRooms As List(Of RoomModel) = Nothing)
+		' Initialise values
+		If IsNothing(Items) Then
+			Me.Items = New List(Of ItemModel)()
+		Else
+			Me.Items = Items
+		End If
+		If IsNothing(UnlockedRooms) Then
+			Me.UnlockedRooms = New List(Of RoomModel)()
+		Else
+			Me.UnlockedRooms = UnlockedRooms
+		End If
+
 		Me.CurrentRoom = CurrentRoom
 		Me.NotiPresenter = NotiPresenter
 	End Sub
@@ -38,5 +50,16 @@
 
 	Public Sub ChangeRoom(Room As RoomModel)
 		CurrentRoom = Room
+
+		For Each UnlockedRoom In UnlockedRooms
+			' If this room is already unlocked
+			If UnlockedRoom.Equals(Room) Then
+				' Do nothing
+				Return
+			End If
+		Next
+
+		' Otherwise, add this to unlocked rooms
+		UnlockedRooms.Add(Room)
 	End Sub
 End Class

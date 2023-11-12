@@ -1,4 +1,4 @@
-﻿Public Class frmRoom
+﻿Public Class GameForm
 	Implements IRoomView, INotiView
 
 	Public Property AvailableRoomsName As List(Of String) Implements IRoomView.AvailableRoomsName
@@ -103,5 +103,10 @@
 		If e.KeyCode = Keys.Return Then
 			RoomPresenter.TryUnlock()
 		End If
+	End Sub
+
+	Private Sub btnPlayer_Click(sender As Object, e As EventArgs) Handles btnPlayer.Click
+		Dim PlayerForm As New PlayerForm(PlayerModel)
+		PlayerForm.ShowDialog(Me)
 	End Sub
 End Class
