@@ -35,7 +35,6 @@ Partial Class frmRoom
 		txtAnswer = New TextBox()
 		lblSecurityQuestion = New Label()
 		lblSecurity = New Label()
-		lblNotiCount = New Label()
 		Panel1.SuspendLayout()
 		CType(picRoom, ComponentModel.ISupportInitialize).BeginInit()
 		Panel2.SuspendLayout()
@@ -44,7 +43,7 @@ Partial Class frmRoom
 		' lblRoomName
 		' 
 		lblRoomName.AutoSize = True
-		lblRoomName.Font = New Font("Bookman Old Style", 16F, FontStyle.Bold, GraphicsUnit.Point)
+		lblRoomName.Font = New Font("Bookman Old Style", 16.0F, FontStyle.Bold, GraphicsUnit.Point)
 		lblRoomName.Location = New Point(11, 7)
 		lblRoomName.Margin = New Padding(4, 0, 4, 0)
 		lblRoomName.Name = "lblRoomName"
@@ -55,7 +54,7 @@ Partial Class frmRoom
 		' lblNoti
 		' 
 		lblNoti.AutoSize = True
-		lblNoti.Font = New Font("Comic Sans MS", 12F, FontStyle.Regular, GraphicsUnit.Point)
+		lblNoti.Font = New Font("Comic Sans MS", 12.0F, FontStyle.Regular, GraphicsUnit.Point)
 		lblNoti.Location = New Point(11, 7)
 		lblNoti.Margin = New Padding(4, 0, 4, 0)
 		lblNoti.Name = "lblNoti"
@@ -80,7 +79,7 @@ Partial Class frmRoom
 		' 
 		lblNotiCount.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left
 		lblNotiCount.AutoEllipsis = True
-		lblNotiCount.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point)
+		lblNotiCount.Font = New Font("Segoe UI", 9.0F, FontStyle.Regular, GraphicsUnit.Point)
 		lblNotiCount.Location = New Point(10, 101)
 		lblNotiCount.Name = "lblNotiCount"
 		lblNotiCount.Size = New Size(122, 25)
@@ -104,7 +103,7 @@ Partial Class frmRoom
 		' 
 		Label1.Anchor = AnchorStyles.Top Or AnchorStyles.Right
 		Label1.AutoSize = True
-		Label1.Font = New Font("Bookman Old Style", 12F, FontStyle.Bold, GraphicsUnit.Point)
+		Label1.Font = New Font("Bookman Old Style", 12.0F, FontStyle.Bold, GraphicsUnit.Point)
 		Label1.Location = New Point(530, 43)
 		Label1.Margin = New Padding(4, 0, 4, 0)
 		Label1.Name = "Label1"
@@ -116,7 +115,7 @@ Partial Class frmRoom
 		' 
 		cmbToRoom.Anchor = AnchorStyles.Top Or AnchorStyles.Right
 		cmbToRoom.DropDownStyle = ComboBoxStyle.DropDownList
-		cmbToRoom.Font = New Font("Bookman Old Style", 12F, FontStyle.Regular, GraphicsUnit.Point)
+		cmbToRoom.Font = New Font("Bookman Old Style", 12.0F, FontStyle.Regular, GraphicsUnit.Point)
 		cmbToRoom.FormattingEnabled = True
 		cmbToRoom.Location = New Point(530, 70)
 		cmbToRoom.Name = "cmbToRoom"
@@ -126,7 +125,7 @@ Partial Class frmRoom
 		' btnEnterRoom
 		' 
 		btnEnterRoom.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-		btnEnterRoom.Font = New Font("Bookman Old Style", 12F, FontStyle.Regular, GraphicsUnit.Point)
+		btnEnterRoom.Font = New Font("Bookman Old Style", 12.0F, FontStyle.Regular, GraphicsUnit.Point)
 		btnEnterRoom.Location = New Point(530, 112)
 		btnEnterRoom.Name = "btnEnterRoom"
 		btnEnterRoom.Size = New Size(388, 40)
@@ -150,7 +149,7 @@ Partial Class frmRoom
 		' btnSubmitAns
 		' 
 		btnSubmitAns.Dock = DockStyle.Bottom
-		btnSubmitAns.Font = New Font("Bookman Old Style", 12F, FontStyle.Regular, GraphicsUnit.Point)
+		btnSubmitAns.Font = New Font("Bookman Old Style", 12.0F, FontStyle.Regular, GraphicsUnit.Point)
 		btnSubmitAns.Location = New Point(5, 352)
 		btnSubmitAns.Name = "btnSubmitAns"
 		btnSubmitAns.Size = New Size(378, 40)
@@ -161,7 +160,7 @@ Partial Class frmRoom
 		' txtAnswer
 		' 
 		txtAnswer.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
-		txtAnswer.Font = New Font("Bookman Old Style", 12F, FontStyle.Regular, GraphicsUnit.Point)
+		txtAnswer.Font = New Font("Bookman Old Style", 12.0F, FontStyle.Regular, GraphicsUnit.Point)
 		txtAnswer.Location = New Point(8, 312)
 		txtAnswer.MaxLength = 100
 		txtAnswer.Name = "txtAnswer"
@@ -171,7 +170,7 @@ Partial Class frmRoom
 		' lblSecurityQuestion
 		' 
 		lblSecurityQuestion.AutoSize = True
-		lblSecurityQuestion.Font = New Font("Bookman Old Style", 12F, FontStyle.Regular, GraphicsUnit.Point)
+		lblSecurityQuestion.Font = New Font("Bookman Old Style", 12.0F, FontStyle.Regular, GraphicsUnit.Point)
 		lblSecurityQuestion.Location = New Point(8, 33)
 		lblSecurityQuestion.Name = "lblSecurityQuestion"
 		lblSecurityQuestion.Size = New Size(99, 23)
@@ -181,29 +180,55 @@ Partial Class frmRoom
 		' lblSecurity
 		' 
 		lblSecurity.AutoSize = True
-		lblSecurity.Font = New Font("Bookman Old Style", 14F, FontStyle.Bold, GraphicsUnit.Point)
+		lblSecurity.Font = New Font("Bookman Old Style", 14.0F, FontStyle.Bold, GraphicsUnit.Point)
 		lblSecurity.Location = New Point(8, 5)
 		lblSecurity.Name = "lblSecurity"
 		lblSecurity.Size = New Size(126, 28)
 		lblSecurity.TabIndex = 0
 		lblSecurity.Text = "Security:"
 		' 
-		' lblNotiCount
+		' btnPlayer
 		' 
-		lblNotiCount.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left
-		lblNotiCount.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point)
-		lblNotiCount.Location = New Point(10, 101)
-		lblNotiCount.Name = "lblNotiCount"
-		lblNotiCount.Size = New Size(122, 25)
-		lblNotiCount.TabIndex = 2
-		lblNotiCount.Text = "1"
-		lblNotiCount.TextAlign = ContentAlignment.BottomLeft
+		btnPlayer.Location = New Point(824, 10)
+		btnPlayer.Name = "btnPlayer"
+		btnPlayer.Size = New Size(94, 40)
+		btnPlayer.TabIndex = 8
+		btnPlayer.Text = "&Player"
+		btnPlayer.UseVisualStyleBackColor = True
+		' 
+		' btnPlayer
+		' 
+		btnPlayer.Location = New Point(824, 10)
+		btnPlayer.Name = "btnPlayer"
+		btnPlayer.Size = New Size(94, 40)
+		btnPlayer.TabIndex = 8
+		btnPlayer.Text = "&Player"
+		btnPlayer.UseVisualStyleBackColor = True
+		' 
+		' btnPlayer
+		' 
+		btnPlayer.Location = New Point(824, 10)
+		btnPlayer.Name = "btnPlayer"
+		btnPlayer.Size = New Size(94, 40)
+		btnPlayer.TabIndex = 8
+		btnPlayer.Text = "&Player"
+		btnPlayer.UseVisualStyleBackColor = True
+		' 
+		' btnPlayer
+		' 
+		btnPlayer.Location = New Point(824, 10)
+		btnPlayer.Name = "btnPlayer"
+		btnPlayer.Size = New Size(94, 40)
+		btnPlayer.TabIndex = 8
+		btnPlayer.Text = "&Player"
+		btnPlayer.UseVisualStyleBackColor = True
 		' 
 		' frmRoom
 		' 
-		AutoScaleDimensions = New SizeF(11F, 28F)
+		AutoScaleDimensions = New SizeF(11.0F, 28.0F)
 		AutoScaleMode = AutoScaleMode.Font
 		ClientSize = New Size(928, 694)
+		Controls.Add(btnPlayer)
 		Controls.Add(Panel2)
 		Controls.Add(btnEnterRoom)
 		Controls.Add(cmbToRoom)
@@ -211,7 +236,7 @@ Partial Class frmRoom
 		Controls.Add(picRoom)
 		Controls.Add(Panel1)
 		Controls.Add(lblRoomName)
-		Font = New Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point)
+		Font = New Font("Segoe UI", 12.0F, FontStyle.Regular, GraphicsUnit.Point)
 		FormBorderStyle = FormBorderStyle.Fixed3D
 		Margin = New Padding(4)
 		MinimumSize = New Size(950, 745)
@@ -240,4 +265,5 @@ Partial Class frmRoom
 	Friend WithEvents txtAnswer As TextBox
 	Friend WithEvents btnSubmitAns As Button
 	Friend WithEvents lblNotiCount As Label
+	Friend WithEvents btnPlayer As Button
 End Class

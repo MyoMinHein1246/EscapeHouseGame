@@ -98,4 +98,10 @@
 	Private Sub btnSubmitAns_Click(sender As Object, e As EventArgs) Handles btnSubmitAns.Click
 		RoomPresenter.TryUnlock()
 	End Sub
+
+	Private Sub txtAnswer_KeyDown(sender As Object, e As KeyEventArgs) Handles txtAnswer.KeyDown
+		If e.KeyCode = Keys.Return Then
+			RoomPresenter.TryUnlock()
+		End If
+	End Sub
 End Class
