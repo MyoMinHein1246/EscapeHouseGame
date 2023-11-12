@@ -147,6 +147,11 @@
 		Dim result = Room.UnlockRoom(item, msg)
 
 		NotiPresenter.AddNoti(msg)
+
+		If Not IsNothing(item) AndAlso Not item.CanUse Then
+			NotiPresenter.AddNoti($"Oh... I can't use '{item.GetName}' anymore.")
+		End If
+
 		NotiPresenter.ShowNoti()
 		Return result
 	End Function

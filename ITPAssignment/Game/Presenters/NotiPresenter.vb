@@ -24,7 +24,7 @@
 		End If
 
 		If ClearInEnd Then
-			AddNoti("")
+			AddNoti(" ", False)
 		End If
 
 		IsShowing = True
@@ -35,7 +35,7 @@
 				SoundPresenter.PlaySoundOnce(SoundPresenter.SoundType.Noti)
 			End If
 
-			Await Task.Delay(5000)
+			Await Task.Delay(1000)
 		End While
 
 		IsShowing = False

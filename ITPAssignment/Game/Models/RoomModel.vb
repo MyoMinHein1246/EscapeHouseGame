@@ -33,8 +33,8 @@
 			Return Not HasPuzzle OrElse Puzzle.GetHasSolved
 		End Get
 	End Property
-	Private RequiredItems As Stack(Of ItemModel)
-	Public ReadOnly Property GetRequiredItems() As Stack(Of ItemModel)
+	Private RequiredItems As List(Of ItemModel)
+	Public ReadOnly Property GetRequiredItems() As List(Of ItemModel)
 		Get
 			Return RequiredItems
 		End Get
@@ -55,28 +55,32 @@
 		End If
 
 		' If keys or codes are required but player has none or item cannot be used
-		If IsNothing(item) OrElse Not item.CanUse Then
+		If IsNothing(item) Then
 			msg = $"'{Name}' is locked! Hmm... Seems like I will need a specific item for this one."
+			Return False
+		ElseIf Not item.CanUse Then
+			msg = $"I cannot use '{item.GetName}' anymore."
 			Return False
 		End If
 
 		' Compare required item name with player's item
-		Dim GetCurrentRequiredItem = RequiredItems.Pop
-		If Not GetCurrentRequiredItem.Equals(item) Then
-			' Failed to unlock, readd the requirement
-			RequiredItems.Push(GetCurrentRequiredItem)
-			msg = "Ahh... Wrong one!"
-		Else
-			' Use the item
-			msg = "Yes! It worked!"
-			item.Use()
+		For i = 0 To RequiredItems.Count - 1
+			If RequiredItems(i).Equals(item) Then
+				RequiredItems.RemoveAt(i)
+				' Use the item
+				msg = "Yes! It worked!"
+				item.Use()
 
-			If Not GetHasUnlocked Then
-				msg += " Are you kidding me? I need more items!!!"
+				If Not GetHasUnlocked Then
+					msg += " Are you kidding me? I need more items!!!"
+				Else
+					msg += " I can enter now."
+				End If
 			Else
-				msg += " I can enter now."
+				' Failed to unlock, readd the requirement
+				msg = "Ahh... Wrong one!"
 			End If
-		End If
+		Next
 
 		' Whether or not player has unlocked all requirements
 		Return GetHasUnlocked
@@ -92,7 +96,7 @@
 		' TODO: add room picture
 		Private AvailableRooms As List(Of String) = Nothing
 		Private Puzzle As PuzzleModel = Nothing
-		Private RequiredItems As Stack(Of ItemModel) = Nothing
+		Private RequiredItems As List(Of ItemModel) = Nothing
 
 		Public Function WithName(Name As String) As RoomBuilder
 			Me.Name = Name
@@ -117,7 +121,7 @@
 			Return Me
 		End Function
 
-		Public Function WithRequiredItems(ByRef RequiredItems As Stack(Of ItemModel)) As RoomBuilder
+		Public Function WithRequiredItems(ByRef RequiredItems As List(Of ItemModel)) As RoomBuilder
 			Me.RequiredItems = RequiredItems
 
 			Return Me
