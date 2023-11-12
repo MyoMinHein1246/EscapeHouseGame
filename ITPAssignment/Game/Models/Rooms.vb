@@ -34,12 +34,20 @@ Module Rooms
 							.WithSecretQA("", "") _
 							.Build
 
+		' Make Hall the default room
 		GetDefaultRoom = Hall
 
+		' Other rooms
+		Dim LivingRoom = New RoomBuilder() _
+							.WithName("Living Room") _
+							.WithText("OMG! This is the biggest living room I have ever seen!") _
+							.WithAvailableRooms(New List(Of String) From {GetDefaultRoom.GetName, "Art Room", "Barthroom1", "Bedroom", "Computer Room"}) _
+							.WithSecretQA("", "") _
+							.Build()
 		Dim Bathroom1 = New RoomBuilder() _
 							.WithName("Bathroom 1") _
 							.WithText("Wow! This bathroom is so clean and it also has toilet. Hmm... What might I find here?") _
-							.WithAvailableRooms(New List(Of String) From {"Hall"}) _
+							.WithAvailableRooms(New List(Of String) From {GetDefaultRoom.GetName, LivingRoom.GetName}) _
 							.WithSecretQA("", "") _
 							.Build()
 	End Sub

@@ -61,12 +61,84 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        '''</summary>
+        Friend ReadOnly Property get_item() As System.IO.UnmanagedMemoryStream
+            Get
+                Return ResourceManager.GetStream("get_item", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        '''</summary>
+        Friend ReadOnly Property lose() As System.IO.UnmanagedMemoryStream
+            Get
+                Return ResourceManager.GetStream("lose", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        '''</summary>
+        Friend ReadOnly Property pop() As System.IO.UnmanagedMemoryStream
+            Get
+                Return ResourceManager.GetStream("pop", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  Looks up a localized resource of type System.Drawing.Bitmap.
         '''</summary>
         Friend ReadOnly Property smile_face_ascii() As System.Drawing.Bitmap
             Get
-                Dim obj As Object = ResourceManager.GetObject("smile face ascii", resourceCulture)
+                Dim obj As Object = ResourceManager.GetObject("smile_face_ascii", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        '''</summary>
+        Friend ReadOnly Property theme_song() As System.IO.UnmanagedMemoryStream
+            Get
+                Return ResourceManager.GetStream("theme_song", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        '''</summary>
+        Friend ReadOnly Property type_1() As System.IO.UnmanagedMemoryStream
+            Get
+                Return ResourceManager.GetStream("type_1", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        '''</summary>
+        Friend ReadOnly Property type_2() As System.IO.UnmanagedMemoryStream
+            Get
+                Return ResourceManager.GetStream("type_2", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        '''</summary>
+        Friend ReadOnly Property use_item() As System.IO.UnmanagedMemoryStream
+            Get
+                Return ResourceManager.GetStream("use_item", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        '''</summary>
+        Friend ReadOnly Property win() As System.IO.UnmanagedMemoryStream
+            Get
+                Return ResourceManager.GetStream("win", resourceCulture)
             End Get
         End Property
     End Module

@@ -4,18 +4,32 @@
 	' Reference to the model
 	Private Model As Player
 	Private NotiPresenter As NotiPresenter
+	Private SoundPresenter As SoundPresenter
 
-	Public Sub New(View As IPlayerView, NotiView As INotiView)
+	Public Sub New(View As IPlayerView, NotiView As INotiView, ByRef ResourceManager As Resources.ResourceManager)
 		' Assign the reference of the view
 		Me.View = View
 		Model = New Player(GetDefaultRoom)
-		NotiPresenter = New NotiPresenter(NotiView)
+		SoundPresenter = New SoundPresenter(ResourceManager)
+
+		NotiPresenter = New NotiPresenter(NotiView, SoundPresenter)
 		Me.View.CurrentRoomName = ""
 		Me.View.SecretQuestion = ""
 		Me.View.SecretAnswer = ""
+		UnlockAndEnter("", GetDefaultRoom.GetName)
 	End Sub
 
-	Public Function EnterRoom(Room As Room) As Boolean
+	Public Function EnterRoom() As Boolean
+		Dim Room = GetToRoom()
+
+		If Not IsNothing(Room) Then
+			Return EnterRoom(Room)
+		End If
+
+		Return False
+	End Function
+
+	Private Function EnterRoom(Room As Room) As Boolean
 		If Room.GetHasUnlocked Then
 			Model.CurrentRoom = Room
 			View.CurrentRoomName = Room.GetName
@@ -23,19 +37,28 @@
 			NotiPresenter.AddNoti(Room.GetText)
 			NotiPresenter.ShowNoti()
 			Return True
-		Else
+		ElseIf Room.HasQA Then
 			AskQuestion(Room.SecretQuestion)
+		Else
+			UnlockAndEnter("", Room.GetName)
 		End If
 
 		Return False
 	End Function
 
-	Public Sub AskQuestion(Question As String)
-		' TODO: ask if question
+	Private Sub AskQuestion(Question As String)
+		If IsNothing(Question) OrElse Question.Trim().Length = 0 Then
+			Return
+		End If
+
 		View.SecretQuestion = Question
 		View.SecretAnswer = ""
 		NotiPresenter.AddNoti("Hmm... I need to solve this problem to enter the room.")
 		NotiPresenter.ShowNoti()
+	End Sub
+
+	Public Sub AnswerQuestion()
+		UnlockAndEnter(View.SecretAnswer, View.CurrentToRoomName)
 	End Sub
 
 	Public Function UnlockAndEnter(Answer As String, RoomName As String) As Boolean
@@ -56,5 +79,9 @@
 		End If
 
 		Return False
+	End Function
+
+	Private Function GetToRoom() As Room
+		Return GetRoom(View.CurrentToRoomName)
 	End Function
 End Class

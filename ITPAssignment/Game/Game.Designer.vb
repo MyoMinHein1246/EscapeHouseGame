@@ -100,6 +100,7 @@ Partial Class frmRoom
 		' cmbToRoom
 		' 
 		cmbToRoom.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+		cmbToRoom.DropDownStyle = ComboBoxStyle.DropDownList
 		cmbToRoom.Font = New Font("Bookman Old Style", 12F, FontStyle.Regular, GraphicsUnit.Point)
 		cmbToRoom.FormattingEnabled = True
 		cmbToRoom.Location = New Point(530, 70)
@@ -145,10 +146,11 @@ Partial Class frmRoom
 		' txtAnswer
 		' 
 		txtAnswer.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
+		txtAnswer.Font = New Font("Bookman Old Style", 12F, FontStyle.Regular, GraphicsUnit.Point)
 		txtAnswer.Location = New Point(8, 312)
 		txtAnswer.MaxLength = 100
 		txtAnswer.Name = "txtAnswer"
-		txtAnswer.Size = New Size(372, 34)
+		txtAnswer.Size = New Size(372, 31)
 		txtAnswer.TabIndex = 2
 		' 
 		' lblSecurityQuestion

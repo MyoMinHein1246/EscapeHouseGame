@@ -11,7 +11,7 @@
 		End Set
 	End Property
 
-	Public Property CurrentAvailableRoomName As String Implements IPlayerView.CurrentAvailableRoomName
+	Public Property CurrentToRoomName As String Implements IPlayerView.CurrentToRoomName
 		Get
 			Return cmbToRoom.SelectedItem.ToString()
 		End Get
@@ -70,16 +70,14 @@
 		InitializeComponent()
 
 		' Add any initialization after the InitializeComponent() call.
-		PlayerPresenter = New PlayerPresenter(Me, Me)
-
-		PlayerPresenter.UnlockAndEnter("", GetDefaultRoom.GetName)
+		PlayerPresenter = New PlayerPresenter(Me, Me, My.Resources.ResourceManager)
 	End Sub
 
 	Private Sub btnEnterRoom_Click(sender As Object, e As EventArgs) Handles btnEnterRoom.Click
-
+		PlayerPresenter.EnterRoom()
 	End Sub
 
 	Private Sub btnSubmitAns_Click(sender As Object, e As EventArgs) Handles btnSubmitAns.Click
-
+		PlayerPresenter.AnswerQuestion()
 	End Sub
 End Class

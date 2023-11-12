@@ -1,12 +1,13 @@
 ﻿Public Class NotiPresenter
 	Private ReadOnly View As INotiView
-
-	Private ReadOnly NotiTexts As New List(Of String)
+	Private ReadOnly SoundPresenter As SoundPresenter
+	Private ReadOnly NotiTexts As New Queue(Of String)
 	Private IsShowing As Boolean = False
 
-	Public Sub New(View As INotiView)
+	Public Sub New(View As INotiView, ByRef SoundPresenter As SoundPresenter)
 		Me.View = View
 		Me.View.NotiText = ""
+		Me.SoundPresenter = SoundPresenter
 	End Sub
 
 	Public Sub AddNoti(NotiText As String, Optional NewLineIndicator As String = "\n", Optional ReplaceIndicator As Boolean = True)
@@ -23,9 +24,9 @@
 					FormattedText += " " & vbCrLf
 				Next
 
-				NotiTexts.Add(FormattedText)
+				NotiTexts.Enqueue(FormattedText)
 			Else
-				NotiTexts.Add(NotiText)
+				NotiTexts.Enqueue(NotiText)
 			End If
 
 		End If
@@ -40,17 +41,15 @@
 			AddNoti("")
 		End If
 
-		Dim index As Integer = 0
 		IsShowing = True
 
 		While NotiTexts.Count > 0
-			View.NotiText = NotiTexts(index)
+			View.NotiText = NotiTexts.Dequeue()
+			If Not IsNothing(SoundPresenter) Then
+				SoundPresenter.PlaySoundOnce(SoundPresenter.SoundType.Noti)
+			End If
 
 			Await Task.Delay(5000)
-
-			NotiTexts.RemoveAt(index)
-
-			index += 1
 		End While
 
 		IsShowing = False

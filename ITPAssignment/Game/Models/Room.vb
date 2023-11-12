@@ -29,6 +29,12 @@
 			AvailableRooms = value
 		End Set
 	End Property
+	Public ReadOnly Property HasQA As String
+		Get
+			Return SecretQuestion.Trim().Length > 0
+		End Get
+	End Property
+
 	Public SecretQuestion As String
 	Public SecretAnswer As String
 	Public Hint As String
