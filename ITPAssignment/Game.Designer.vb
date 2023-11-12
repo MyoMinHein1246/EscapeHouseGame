@@ -33,7 +33,7 @@ Partial Class frmRoom
 		btnSubmitAns = New Button()
 		txtAnswer = New TextBox()
 		lblSecurityQuestion = New Label()
-		Label2 = New Label()
+		lblSecurity = New Label()
 		Panel1.SuspendLayout()
 		CType(picRoom, ComponentModel.ISupportInitialize).BeginInit()
 		Panel2.SuspendLayout()
@@ -75,6 +75,7 @@ Partial Class frmRoom
 		' 
 		' picRoom
 		' 
+		picRoom.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
 		picRoom.Image = My.Resources.Resources.smile_face_ascii
 		picRoom.Location = New Point(11, 43)
 		picRoom.Margin = New Padding(4)
@@ -86,6 +87,7 @@ Partial Class frmRoom
 		' 
 		' Label1
 		' 
+		Label1.Anchor = AnchorStyles.Top Or AnchorStyles.Right
 		Label1.AutoSize = True
 		Label1.Font = New Font("Bookman Old Style", 12F, FontStyle.Bold, GraphicsUnit.Point)
 		Label1.Location = New Point(530, 43)
@@ -97,7 +99,7 @@ Partial Class frmRoom
 		' 
 		' cmbToRoom
 		' 
-		cmbToRoom.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
+		cmbToRoom.Anchor = AnchorStyles.Top Or AnchorStyles.Right
 		cmbToRoom.Font = New Font("Bookman Old Style", 12F, FontStyle.Regular, GraphicsUnit.Point)
 		cmbToRoom.FormattingEnabled = True
 		cmbToRoom.Location = New Point(530, 70)
@@ -107,7 +109,7 @@ Partial Class frmRoom
 		' 
 		' btnEnterRoom
 		' 
-		btnEnterRoom.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
+		btnEnterRoom.Anchor = AnchorStyles.Top Or AnchorStyles.Right
 		btnEnterRoom.Font = New Font("Bookman Old Style", 12F, FontStyle.Regular, GraphicsUnit.Point)
 		btnEnterRoom.Location = New Point(530, 112)
 		btnEnterRoom.Name = "btnEnterRoom"
@@ -118,11 +120,11 @@ Partial Class frmRoom
 		' 
 		' Panel2
 		' 
-		Panel2.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
+		Panel2.Anchor = AnchorStyles.Top Or AnchorStyles.Right
 		Panel2.Controls.Add(btnSubmitAns)
 		Panel2.Controls.Add(txtAnswer)
 		Panel2.Controls.Add(lblSecurityQuestion)
-		Panel2.Controls.Add(Label2)
+		Panel2.Controls.Add(lblSecurity)
 		Panel2.Location = New Point(530, 158)
 		Panel2.Name = "Panel2"
 		Panel2.Padding = New Padding(5)
@@ -159,15 +161,15 @@ Partial Class frmRoom
 		lblSecurityQuestion.TabIndex = 1
 		lblSecurityQuestion.Text = "Question"
 		' 
-		' Label2
+		' lblSecurity
 		' 
-		Label2.AutoSize = True
-		Label2.Font = New Font("Bookman Old Style", 14F, FontStyle.Bold, GraphicsUnit.Point)
-		Label2.Location = New Point(8, 5)
-		Label2.Name = "Label2"
-		Label2.Size = New Size(126, 28)
-		Label2.TabIndex = 0
-		Label2.Text = "Security:"
+		lblSecurity.AutoSize = True
+		lblSecurity.Font = New Font("Bookman Old Style", 14F, FontStyle.Bold, GraphicsUnit.Point)
+		lblSecurity.Location = New Point(8, 5)
+		lblSecurity.Name = "lblSecurity"
+		lblSecurity.Size = New Size(126, 28)
+		lblSecurity.TabIndex = 0
+		lblSecurity.Text = "Security:"
 		' 
 		' frmRoom
 		' 
@@ -184,7 +186,6 @@ Partial Class frmRoom
 		Font = New Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point)
 		FormBorderStyle = FormBorderStyle.Fixed3D
 		Margin = New Padding(4)
-		MaximizeBox = False
 		MinimumSize = New Size(950, 745)
 		Name = "frmRoom"
 		Padding = New Padding(7)
@@ -206,7 +207,7 @@ Partial Class frmRoom
 	Friend WithEvents cmbToRoom As ComboBox
 	Friend WithEvents btnEnterRoom As Button
 	Friend WithEvents Panel2 As Panel
-	Friend WithEvents Label2 As Label
+	Friend WithEvents lblSecurity As Label
 	Friend WithEvents lblSecurityQuestion As Label
 	Friend WithEvents txtAnswer As TextBox
 	Friend WithEvents btnSubmitAns As Button
