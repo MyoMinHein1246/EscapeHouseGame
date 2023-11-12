@@ -2,11 +2,10 @@
 	' Reference to the view
 	Private ReadOnly View As IRoomView
 	' Reference to the model
-	Private PlayerModel As PlayerModel
+	Private ReadOnly PlayerModel As PlayerModel
 	Private ReadOnly NotiPresenter As NotiPresenter
-	Private ReadOnly SoundPresenter As SoundPresenter
 
-	Public Sub New(View As IRoomView, ByRef NotiPresenter As NotiPresenter, ByRef PlayerModel As PlayerModel, ByRef SoundPresenter As SoundPresenter)
+	Public Sub New(View As IRoomView, ByRef NotiPresenter As NotiPresenter, ByRef PlayerModel As PlayerModel)
 		' Assign the reference of the view
 		Me.View = View
 		' Clear view
@@ -17,7 +16,6 @@
 		' Assign Presenters and models
 		Me.NotiPresenter = NotiPresenter
 		Me.PlayerModel = PlayerModel
-		Me.SoundPresenter = SoundPresenter
 
 		' Unlock and enter the default room
 		Me.NotiPresenter.AddNoti("You are trapped in a room inside a house.\n You need to find your way out.\n The room you are in has THREE (3) doors, there might be something shiny on the floor just in front of you.")
@@ -48,13 +46,17 @@
 		If Room.GetHasUnlocked Then
 			PlayerModel.ChangeRoom(Room)
 
+			' Update View
 			View.CurrentRoomName = Room.GetName
 			View.AvailableRoomsName = Room.GetAvailableRooms
 			View.SecretQuestion = ""
 			View.SecretAnswer = ""
+			' Show noti of room's text
 			NotiPresenter.AddNoti(Room.GetText)
 			NotiPresenter.ShowNoti()
+
 			If Room.HasPuzzle Then
+				' Ask puzzle question if any
 				AskQuestion(Room.GetPuzzle.Question)
 			End If
 			Return True
@@ -85,6 +87,11 @@
 	End Sub
 
 	Private Sub SolveCurrentRoomPuzzle()
+		' If current room is none, or has no puzzle or has puzzle solved
+		If IsNothing(PlayerModel.GetCurrentRoom) OrElse Not PlayerModel.GetCurrentRoom.HasPuzzleSolved Then
+			' Do nothing
+			Return
+		End If
 
 		If PlayerModel.GetCurrentRoom.SolvePuzzle(View.SecretAnswer) Then
 			NotiPresenter.AddNoti("Yes! I solved it. Smart me.")

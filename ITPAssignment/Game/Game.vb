@@ -79,7 +79,7 @@
 
 		SoundPresenter = New SoundPresenter(My.Resources.ResourceManager)
 		NotiPresenter = New NotiPresenter(Me, SoundPresenter)
-		RoomPresenter = New RoomPresenter(Me, NotiPresenter, PlayerModel, SoundPresenter)
+		RoomPresenter = New RoomPresenter(Me, NotiPresenter, PlayerModel)
 	End Sub
 
 	Private Sub btnEnterRoom_Click(sender As Object, e As EventArgs) Handles btnEnterRoom.Click
