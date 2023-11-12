@@ -30,7 +30,7 @@
 		If Not IsNothing(Room) Then
 			' If room is not default room and current room puzzle is not solved
 			If Not PlayerModel.GetCurrentRoom.HasPuzzleSolved And Not Room.Equals(GetDefaultRoom) Then
-				AskQuestion(Room.GetPuzzle.Question)
+				AskQuestion(PlayerModel.GetCurrentRoom.GetPuzzle.Question)
 				Return False
 			End If
 
@@ -62,6 +62,8 @@
 			Return True
 		End If
 
+		' If not unlocked
+		UnlockRoom(Nothing, Room.GetName)
 		Return False
 	End Function
 
