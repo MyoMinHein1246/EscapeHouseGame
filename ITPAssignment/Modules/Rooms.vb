@@ -4,6 +4,7 @@ Module Rooms
 	Public GameRooms As New Dictionary(Of String, RoomModel)
 
 	Private DefaultRoom As RoomModel
+	' Getter for Default Room
 	Public ReadOnly Property GetDefaultRoom As RoomModel
 		Get
 			Return DefaultRoom

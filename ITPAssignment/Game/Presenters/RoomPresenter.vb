@@ -30,7 +30,7 @@
 		If Not IsNothing(Room) Then
 			' If room is not default room and current room puzzle is not solved
 			If Not PlayerModel.GetCurrentRoom.HasPuzzleSolved And Not Room.Equals(GetDefaultRoom) Then
-				SolveCurrentRoomPuzzle()
+				AskQuestion(Room.GetPuzzle.Question)
 				Return False
 			End If
 
@@ -55,7 +55,7 @@
 			NotiPresenter.AddNoti(Room.GetText)
 			NotiPresenter.ShowNoti()
 
-			If Room.HasPuzzle Then
+			If Not Room.HasPuzzleSolved Then
 				' Ask puzzle question if any
 				AskQuestion(Room.GetPuzzle.Question)
 			End If
@@ -94,15 +94,25 @@
 		End If
 
 		If PlayerModel.GetCurrentRoom.SolvePuzzle(View.SecretAnswer) Then
+			' Grant player rewards
+			PlayerModel.ClaimItems(PlayerModel.GetCurrentRoom.GetPuzzle.Rewards)
+			' Update View
+			View.SecretQuestion = ""
+			View.SecretAnswer = ""
+			' Show noti
 			NotiPresenter.AddNoti("Yes! I solved it. Smart me.")
 			NotiPresenter.ShowNoti()
 		Else
+			' Show noti
 			NotiPresenter.AddNoti("Wrong! Ahh... I should try again.")
 			NotiPresenter.ShowNoti()
 			' AskQuestion(PlayerModel.GetCurrentRoom.GetPuzzle.Question)
 
+			' If player might need hint
 			If PlayerModel.GetCurrentRoom.GetPuzzle.ShouldShowHint Then
+				' Show hint
 				NotiPresenter.AddNoti(PlayerModel.GetCurrentRoom.GetPuzzle.Hint)
+				NotiPresenter.ShowNoti(True)
 			End If
 		End If
 

@@ -75,10 +75,10 @@
 		' Add any initialization after the InitializeComponent() call.
 		GenerateRooms()
 
-		PlayerModel = New PlayerModel(Nothing)
-
 		SoundPresenter = New SoundPresenter(My.Resources.ResourceManager)
 		NotiPresenter = New NotiPresenter(Me, SoundPresenter)
+
+		PlayerModel = New PlayerModel(NotiPresenter, Nothing)
 		RoomPresenter = New RoomPresenter(Me, NotiPresenter, PlayerModel)
 	End Sub
 

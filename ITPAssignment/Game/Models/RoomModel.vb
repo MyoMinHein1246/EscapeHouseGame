@@ -111,7 +111,7 @@
 		End Function
 
 		Public Function WithPuzzle(Puzzle As PuzzleModel) As RoomBuilder
-			Me.Puzzle = Puzzle
+			Me.Puzzle = PuzzleModel.Copy(Puzzle)
 			Return Me
 		End Function
 
@@ -144,5 +144,9 @@
 		End If
 
 		Return False
+	End Function
+
+	Public Overrides Function GetHashCode() As Integer
+		Return HashCode.Combine(Me)
 	End Function
 End Class

@@ -4,7 +4,7 @@
 	Public ReadOnly Hint As String
 	Public ReadOnly Rewards As List(Of ItemModel)
 	Private ReadOnly TriesBeforeHint As Integer
-	Private Tries As Integer = 0
+	Private Tries As Integer
 	Private HasSolved As Boolean
 
 	Public Sub New(Question As String, Answer As String, ByRef Rewards As List(Of ItemModel), Optional Hint As String = "", Optional TriesBeforeHint As Integer = 3)
@@ -13,6 +13,7 @@
 		Me.Rewards = Rewards
 		Me.Hint = Hint
 		Me.TriesBeforeHint = TriesBeforeHint
+		Me.Tries = 0
 	End Sub
 
 	Public Function ShouldShowHint() As Boolean
@@ -34,4 +35,21 @@
 	Public Function GetHasSolved() As Boolean
 		Return HasSolved
 	End Function
+
+	Public Shared Function Copy(OtherPuzzle As PuzzleModel) As PuzzleModel
+		' If other puzzle to copy is nothing
+		If IsNothing(OtherPuzzle) Then
+			Return Nothing
+		End If
+
+		' Return copied puzzle
+		Return New PuzzleModel(
+			OtherPuzzle.Question,
+			OtherPuzzle.Answer,
+			OtherPuzzle.Rewards,
+			OtherPuzzle.Hint,
+			OtherPuzzle.TriesBeforeHint
+		)
+	End Function
+
 End Class

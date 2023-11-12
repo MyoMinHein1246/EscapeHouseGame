@@ -1,6 +1,7 @@
 ﻿Public Class PlayerModel
 	Private CurrentRoom As RoomModel
 	Private ReadOnly Items As List(Of ItemModel)
+	Private ReadOnly NotiPresenter As NotiPresenter
 
 	Public ReadOnly Property GetCurrentRoom() As RoomModel
 		Get
@@ -8,9 +9,21 @@
 		End Get
 	End Property
 
-	Public Sub New(CurrentRoom As RoomModel)
+	Public Sub New(NotiPresenter As NotiPresenter, CurrentRoom As RoomModel)
 		Items = New List(Of ItemModel)()
 		Me.CurrentRoom = CurrentRoom
+		Me.NotiPresenter = NotiPresenter
+	End Sub
+
+	Public Sub ClaimItems(rewards As List(Of ItemModel))
+		For Each reward In rewards
+			ClaimItem(reward)
+		Next
+	End Sub
+
+	Public Sub ClaimItem(Item As ItemModel)
+		NotiPresenter.AddNoti($"Wow! I found a new item.\n '{Item.GetName}' was added to your inventory.")
+		Items.Add(Item)
 	End Sub
 
 	Public Function GetItem(ItemName As String) As ItemModel
