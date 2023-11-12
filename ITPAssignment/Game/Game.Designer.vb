@@ -25,6 +25,7 @@ Partial Class frmRoom
 		lblRoomName = New Label()
 		lblNoti = New Label()
 		Panel1 = New Panel()
+		lblNotiCount = New Label()
 		picRoom = New PictureBox()
 		Label1 = New Label()
 		cmbToRoom = New ComboBox()
@@ -74,6 +75,18 @@ Partial Class frmRoom
 		Panel1.Padding = New Padding(7)
 		Panel1.Size = New Size(914, 126)
 		Panel1.TabIndex = 2
+		' 
+		' lblNotiCount
+		' 
+		lblNotiCount.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left
+		lblNotiCount.AutoEllipsis = True
+		lblNotiCount.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point)
+		lblNotiCount.Location = New Point(10, 101)
+		lblNotiCount.Name = "lblNotiCount"
+		lblNotiCount.Size = New Size(122, 25)
+		lblNotiCount.TabIndex = 2
+		lblNotiCount.Text = "1"
+		lblNotiCount.TextAlign = ContentAlignment.BottomLeft
 		' 
 		' picRoom
 		' 
