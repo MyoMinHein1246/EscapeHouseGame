@@ -11,10 +11,44 @@
 			Return Text
 		End Get
 	End Property
-	Private AvailableRooms As List(Of String)
+	Private FromRooms As List(Of String) ' Previous Rooms
+	Public ReadOnly Property GetFromRooms() As List(Of String)
+		Get
+			Return FromRooms
+		End Get
+	End Property
+	Public ReadOnly Property HasFromRooms As Boolean
+		Get
+			Return Not IsNothing(FromRooms) AndAlso FromRooms.Count > 0
+		End Get
+	End Property
+	Private ToRooms As List(Of String) ' Forward Rooms
+	Public ReadOnly Property GetToRooms() As List(Of String)
+		Get
+			Return ToRooms
+		End Get
+	End Property
+	Public ReadOnly Property HasToRooms As Boolean
+		Get
+			Return Not IsNothing(ToRooms) AndAlso ToRooms.Count > 0
+		End Get
+	End Property
 	Public ReadOnly Property GetAvailableRooms() As List(Of String)
 		Get
-			Return AvailableRooms
+			' If previous rooms are not null, and no room to go forward
+			If HasFromRooms And Not HasToRooms Then
+				' Return previous rooms
+				Return FromRooms
+			End If
+			' If previous rooms are null but forward room are not
+			If HasToRooms And Not HasFromRooms Then
+				' Return forward rooms
+				Return ToRooms
+			End If
+
+			' If both room type are not null
+			' Return both
+			Return ToRooms.Concat(FromRooms).ToList()
 		End Get
 	End Property
 	Private Puzzle As PuzzleModel
@@ -90,11 +124,26 @@
 		Return Puzzle.Solve(Answer)
 	End Function
 
+	Public Function IsForwardRoom(RoomName As String) As Boolean
+		If Not HasToRooms Or IsNothing(RoomName) Then
+			Return False
+		End If
+
+		For Each ForwardRoom In ToRooms
+			If ForwardRoom.ToUpper.Equals(RoomName.ToUpper) Then
+				Return True
+			End If
+		Next
+
+		Return False
+	End Function
+
 	Public Class RoomBuilder
 		Private Name As String = ""
 		Private Text As String = ""
 		' TODO: add room picture
-		Private AvailableRooms As List(Of String) = Nothing
+		Private FromRooms As List(Of String) = Nothing
+		Private ToRooms As List(Of String) = Nothing
 		Private Puzzle As PuzzleModel = Nothing
 		Private RequiredItems As List(Of ItemModel) = Nothing
 
@@ -110,8 +159,14 @@
 			Return Me
 		End Function
 
-		Public Function WithAvailableRooms(AvailableRooms As List(Of String)) As RoomBuilder
-			Me.AvailableRooms = AvailableRooms
+		Public Function WithFromRooms(FromRooms As List(Of String)) As RoomBuilder
+			Me.FromRooms = FromRooms
+
+			Return Me
+		End Function
+
+		Public Function WithToRooms(ToRooms As List(Of String)) As RoomBuilder
+			Me.ToRooms = ToRooms
 
 			Return Me
 		End Function
@@ -129,10 +184,11 @@
 
 		Public Function Build() As RoomModel
 			Dim Room As New RoomModel With {
-				.AvailableRooms = AvailableRooms,
+				.FromRooms = FromRooms,
 				.Name = Name,
 				.Puzzle = Puzzle,
 				.RequiredItems = RequiredItems,
+				.ToRooms = ToRooms,
 				.Text = Text
 			}
 

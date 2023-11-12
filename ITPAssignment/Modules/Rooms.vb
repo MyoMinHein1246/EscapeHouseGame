@@ -37,7 +37,7 @@ Module Rooms
 		Dim Hall = New RoomBuilder() _
 							.WithName("Hall") _
 							.WithText("What a Hall!") _
-							.WithAvailableRooms(New List(Of String) From {"Living Room", "Store Room", "Kitchen"}) _
+							.WithToRooms(New List(Of String)({"Living Room", "Store Room", "Kitchen"})) _
 							.Build
 
 		' Make Hall the default room
@@ -47,19 +47,21 @@ Module Rooms
 		Dim LivingRoom = New RoomBuilder() _
 							.WithName("Living Room") _
 							.WithText("OMG! This is the biggest living room I have ever seen!") _
-							.WithAvailableRooms(New List(Of String) From {GetDefaultRoom.GetName, "Art Room", "Bathroom 1", "Bedroom", "Computer Room"}) _
-							.WithPuzzle(KeyboardPuzzle) _
+							.WithFromRooms(New List(Of String)({GetDefaultRoom.GetName})) _
+							.WithToRooms(New List(Of String)({"Art Room", "Bathroom 1", "Bedroom", "Computer Room"})) _
+		.WithPuzzle(KeyboardPuzzle) _
 							.Build()
 		Dim Bathroom1 = New RoomBuilder() _
 							.WithName("Bathroom 1") _
 							.WithText("Wow! This bathroom is so clean and it also has toilet. Hmm... What might I find here?") _
-							.WithAvailableRooms(New List(Of String) From {GetDefaultRoom.GetName, LivingRoom.GetName}) _
+							.WithFromRooms(New List(Of String)({GetDefaultRoom.GetName, LivingRoom.GetName})) _
 							.WithPuzzle(KeyboardPuzzle) _
 							.Build()
 		Dim ComputerRoom = New RoomBuilder() _
 							.WithName("Computer Room") _
 							.WithText("Holy! Look at all those broken computers. Hmm... What might I find here?") _
-							.WithAvailableRooms(New List(Of String) From {GetDefaultRoom.GetName, LivingRoom.GetName, "Bathroom 2"}) _
+							.WithFromRooms(New List(Of String)({GetDefaultRoom.GetName, LivingRoom.GetName})) _
+							.WithToRooms(New List(Of String)({"Bathroom 2"})) _
 							.WithRequiredItems(New List(Of ItemModel)({ArtRoomKey, ComputerRoomKey})) _
 							.Build()
 	End Sub
