@@ -31,13 +31,13 @@ Partial Class PlayerForm
 		hdName = New ColumnHeader()
 		hdLifeTime = New ColumnHeader()
 		btnSave = New Button()
-		Button1 = New Button()
+		btnLoad = New Button()
 		SuspendLayout()
 		' 
 		' lblCurrentRoom
 		' 
 		lblCurrentRoom.AutoSize = True
-		lblCurrentRoom.Font = New Font("Bookman Old Style", 16F, FontStyle.Bold, GraphicsUnit.Point)
+		lblCurrentRoom.Font = New Font("Bookman Old Style", 16.0F, FontStyle.Bold, GraphicsUnit.Point)
 		lblCurrentRoom.Location = New Point(8, 5)
 		lblCurrentRoom.Name = "lblCurrentRoom"
 		lblCurrentRoom.Size = New Size(213, 32)
@@ -83,26 +83,26 @@ Partial Class PlayerForm
 		btnSave.Text = "&Save"
 		btnSave.UseVisualStyleBackColor = True
 		' 
-		' Button1
+		' btnLoad
 		' 
-		Button1.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left
-		Button1.Location = New Point(159, 412)
-		Button1.Name = "Button1"
-		Button1.Size = New Size(145, 40)
-		Button1.TabIndex = 3
-		Button1.Text = "&Load"
-		Button1.UseVisualStyleBackColor = True
+		btnLoad.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left
+		btnLoad.Location = New Point(159, 412)
+		btnLoad.Name = "btnLoad"
+		btnLoad.Size = New Size(145, 40)
+		btnLoad.TabIndex = 3
+		btnLoad.Text = "&Load"
+		btnLoad.UseVisualStyleBackColor = True
 		' 
 		' PlayerForm
 		' 
-		AutoScaleDimensions = New SizeF(13F, 23F)
+		AutoScaleDimensions = New SizeF(13.0F, 23.0F)
 		AutoScaleMode = AutoScaleMode.Font
 		ClientSize = New Size(655, 460)
-		Controls.Add(Button1)
+		Controls.Add(btnLoad)
 		Controls.Add(btnSave)
 		Controls.Add(lsvInventory)
 		Controls.Add(lblCurrentRoom)
-		Font = New Font("Bookman Old Style", 12F, FontStyle.Regular, GraphicsUnit.Point)
+		Font = New Font("Bookman Old Style", 12.0F, FontStyle.Regular, GraphicsUnit.Point)
 		FormBorderStyle = FormBorderStyle.FixedDialog
 		Margin = New Padding(5, 3, 5, 3)
 		Name = "PlayerForm"
@@ -115,7 +115,7 @@ Partial Class PlayerForm
 	Friend WithEvents lblCurrentRoom As Label
 	Friend WithEvents lsvInventory As ListView
 	Friend WithEvents btnSave As Button
-	Friend WithEvents Button1 As Button
+	Friend WithEvents btnLoad As Button
 	Friend WithEvents hdName As ColumnHeader
 	Friend WithEvents hdLifeTime As ColumnHeader
 End Class

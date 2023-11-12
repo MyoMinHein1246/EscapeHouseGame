@@ -81,7 +81,7 @@ Partial Class GameForm
 		lblNotiCount.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left
 		lblNotiCount.AutoEllipsis = True
 		lblNotiCount.Font = New Font("Segoe UI", 9.0F, FontStyle.Regular, GraphicsUnit.Point)
-		lblNotiCount.Location = New Point(12, 105)
+		lblNotiCount.Location = New Point(6, 85)
 		lblNotiCount.Margin = New Padding(4, 0, 4, 0)
 		lblNotiCount.Name = "lblNotiCount"
 		lblNotiCount.Size = New Size(170, 17)

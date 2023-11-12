@@ -105,7 +105,7 @@
 		End If
 	End Sub
 
-	Private Sub btnPlayer_Click(sender As Object, e As EventArgs)
+	Private Sub btnPlayer_Click(sender As Object, e As EventArgs) Handles btnPlayer.Click
 		Dim PlayerForm As New PlayerForm(PlayerModel)
 		PlayerForm.ShowDialog(Me)
 	End Sub

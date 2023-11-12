@@ -29,6 +29,7 @@
 
 		' This call is required by the designer.
 		InitializeComponent()
+
 		' Add any initialization after the InitializeComponent() call.
 		Me.PlayerModel = PlayerModel
 		Me.PlayerPresenter = New PlayerPresenter(Me, PlayerModel)
