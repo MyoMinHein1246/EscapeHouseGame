@@ -16,6 +16,8 @@
 		Else
 			NotiTexts.Enqueue(NotiText)
 		End If
+		' Update View
+		View.NotiCount = NotiTexts.Count.ToString()
 	End Sub
 
 	Public Async Sub ShowNoti(Optional ClearInEnd As Boolean = False)
@@ -36,6 +38,9 @@
 			End If
 
 			Await Task.Delay(1000)
+
+			' Update View
+			View.NotiCount = NotiTexts.Count.ToString()
 		End While
 
 		IsShowing = False

@@ -34,6 +34,7 @@ Partial Class frmRoom
 		txtAnswer = New TextBox()
 		lblSecurityQuestion = New Label()
 		lblSecurity = New Label()
+		lblNotiCount = New Label()
 		Panel1.SuspendLayout()
 		CType(picRoom, ComponentModel.ISupportInitialize).BeginInit()
 		Panel2.SuspendLayout()
@@ -64,6 +65,7 @@ Partial Class frmRoom
 		' Panel1
 		' 
 		Panel1.AutoScroll = True
+		Panel1.Controls.Add(lblNotiCount)
 		Panel1.Controls.Add(lblNoti)
 		Panel1.Dock = DockStyle.Bottom
 		Panel1.Location = New Point(7, 561)
@@ -173,6 +175,17 @@ Partial Class frmRoom
 		lblSecurity.TabIndex = 0
 		lblSecurity.Text = "Security:"
 		' 
+		' lblNotiCount
+		' 
+		lblNotiCount.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left
+		lblNotiCount.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point)
+		lblNotiCount.Location = New Point(10, 101)
+		lblNotiCount.Name = "lblNotiCount"
+		lblNotiCount.Size = New Size(122, 25)
+		lblNotiCount.TabIndex = 2
+		lblNotiCount.Text = "1"
+		lblNotiCount.TextAlign = ContentAlignment.BottomLeft
+		' 
 		' frmRoom
 		' 
 		AutoScaleDimensions = New SizeF(11F, 28F)
@@ -213,4 +226,5 @@ Partial Class frmRoom
 	Friend WithEvents lblSecurityQuestion As Label
 	Friend WithEvents txtAnswer As TextBox
 	Friend WithEvents btnSubmitAns As Button
+	Friend WithEvents lblNotiCount As Label
 End Class

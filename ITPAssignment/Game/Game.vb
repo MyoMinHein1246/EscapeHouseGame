@@ -62,6 +62,15 @@
 		End Set
 	End Property
 
+	Public Property NotiCount As String Implements INotiView.NotiCount
+		Get
+			Return lblNotiCount.Text
+		End Get
+		Set(value As String)
+			lblNotiCount.Text = value
+		End Set
+	End Property
+
 	Public NotiPresenter As NotiPresenter
 	Public PlayerModel As PlayerModel
 	Public RoomPresenter As RoomPresenter
