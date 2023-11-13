@@ -22,10 +22,11 @@ Partial Class PlayerForm
 	'Do not modify it using the code editor.
 	<System.Diagnostics.DebuggerStepThrough()> _
 	Private Sub InitializeComponent()
-		Dim ListViewGroup3 As ListViewGroup = New ListViewGroup("Unlocked Rooms", HorizontalAlignment.Left)
-		Dim ListViewGroup4 As ListViewGroup = New ListViewGroup("Items", HorizontalAlignment.Left)
-		Dim ListViewItem3 As ListViewItem = New ListViewItem(New String() {"ItemName", "1 Use Left"}, -1)
-		Dim ListViewItem4 As ListViewItem = New ListViewItem(New String() {"Hall", "Unlocked"}, -1)
+		Dim ListViewGroup1 As ListViewGroup = New ListViewGroup("Unlocked Rooms", HorizontalAlignment.Left)
+		Dim ListViewGroup2 As ListViewGroup = New ListViewGroup("Items", HorizontalAlignment.Left)
+		Dim ListViewItem1 As ListViewItem = New ListViewItem(New String() {"ItemName", "1 Use Left"}, -1)
+		Dim ListViewItem2 As ListViewItem = New ListViewItem(New String() {"Hall", "Unlocked"}, -1)
+		Dim resources As ComponentModel.ComponentResourceManager = New ComponentModel.ComponentResourceManager(GetType(PlayerForm))
 		lblCurrentRoom = New Label()
 		lsvInventory = New ListView()
 		hdName = New ColumnHeader()
@@ -48,14 +49,14 @@ Partial Class PlayerForm
 		' 
 		lsvInventory.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
 		lsvInventory.Columns.AddRange(New ColumnHeader() {hdName, hdLifeTime})
-		ListViewGroup3.Header = "Unlocked Rooms"
-		ListViewGroup3.Name = "gpUnlockedRooms"
-		ListViewGroup4.Header = "Items"
-		ListViewGroup4.Name = "gpItems"
-		lsvInventory.Groups.AddRange(New ListViewGroup() {ListViewGroup3, ListViewGroup4})
-		ListViewItem3.Group = ListViewGroup4
-		ListViewItem4.Group = ListViewGroup3
-		lsvInventory.Items.AddRange(New ListViewItem() {ListViewItem3, ListViewItem4})
+		ListViewGroup1.Header = "Unlocked Rooms"
+		ListViewGroup1.Name = "gpUnlockedRooms"
+		ListViewGroup2.Header = "Items"
+		ListViewGroup2.Name = "gpItems"
+		lsvInventory.Groups.AddRange(New ListViewGroup() {ListViewGroup1, ListViewGroup2})
+		ListViewItem1.Group = ListViewGroup2
+		ListViewItem2.Group = ListViewGroup1
+		lsvInventory.Items.AddRange(New ListViewItem() {ListViewItem1, ListViewItem2})
 		lsvInventory.Location = New Point(8, 40)
 		lsvInventory.Name = "lsvInventory"
 		lsvInventory.Size = New Size(639, 366)
@@ -104,6 +105,7 @@ Partial Class PlayerForm
 		Controls.Add(lblCurrentRoom)
 		Font = New Font("Bookman Old Style", 12F, FontStyle.Regular, GraphicsUnit.Point)
 		FormBorderStyle = FormBorderStyle.FixedDialog
+		Icon = CType(resources.GetObject("$this.Icon"), Icon)
 		Margin = New Padding(5, 3, 5, 3)
 		Name = "PlayerForm"
 		Padding = New Padding(5)

@@ -28,20 +28,21 @@ Partial Class HowToPlayForm
 		Dim ListViewItem2 As ListViewItem = New ListViewItem("TIP: If you don't know which items a room require, TRY BRUTE FORCE.")
 		Dim ListViewItem3 As ListViewItem = New ListViewItem("TIP: Did you know that you can use more than one item by separating your input with comma.")
 		Dim ListViewItem4 As ListViewItem = New ListViewItem("TIP: Win the game by solving the puzzle from 'Exit' Room.")
+		Dim ListViewItem5 As ListViewItem = New ListViewItem("TIPS: Don't forget to save your progress")
 		Dim ListViewGroup2 As ListViewGroup = New ListViewGroup("Credit", HorizontalAlignment.Left)
 		Dim ListViewGroup3 As ListViewGroup = New ListViewGroup("Bing Image Query", HorizontalAlignment.Left)
-		Dim ListViewItem5 As ListViewItem = New ListViewItem(New String() {"Sound Effect", "created using 'ChipTone'", "https://sfbgames.itch.io/chiptone"}, -1)
-		Dim ListViewItem6 As ListViewItem = New ListViewItem(New String() {"Images", "created using 'Bing Image Create'", "https://www.bing.com/create"}, -1)
-		Dim ListViewItem7 As ListViewItem = New ListViewItem(New String() {"Art Room Image", "magnificent view of authentic classic house's exquisite art gallery, digital art"}, -1)
-		Dim ListViewItem8 As ListViewItem = New ListViewItem(New String() {"Bathroom 1 Image", "magnificent view of authentic classic house's bathroom with toilet, no doors, digital art"}, -1)
-		Dim ListViewItem9 As ListViewItem = New ListViewItem(New String() {"Bathroom 2 Image", "magnificent view of authentic classic house's bathroom with basins, and 1 door way, digital art"}, -1)
-		Dim ListViewItem10 As ListViewItem = New ListViewItem(New String() {"Bedroom 1 Image", "magnificent view of authentic classic house's spotless, luxurious bedroom with 1 door, digital art"}, -1)
-		Dim ListViewItem11 As ListViewItem = New ListViewItem(New String() {"Computer Room Image", "magnificent view of authentic classic house's room with computers 1 door, digital art"}, -1)
-		Dim ListViewItem12 As ListViewItem = New ListViewItem(New String() {"Exit Room Image", "magnificent view of authentic classic house, digital art"}, -1)
-		Dim ListViewItem13 As ListViewItem = New ListViewItem(New String() {"Hall Image", "magnificent view of authentic classic house's big hall with 3 doors, digital art"}, -1)
-		Dim ListViewItem14 As ListViewItem = New ListViewItem(New String() {"Kitchen Image", "magnificent view of authentic classic house's spotless kitchen with 2 door way, digital art"}, -1)
-		Dim ListViewItem15 As ListViewItem = New ListViewItem(New String() {"Living Room Image", "magnificent view of authentic classic house's big living room with 6 doors, digital art"}, -1)
-		Dim ListViewItem16 As ListViewItem = New ListViewItem(New String() {"Store Room Image", "magnificent view of authentic classic house's store room with full of stuff, digital art"}, -1)
+		Dim ListViewItem6 As ListViewItem = New ListViewItem(New String() {"Sound Effect", "created using 'ChipTone'", "https://sfbgames.itch.io/chiptone"}, -1)
+		Dim ListViewItem7 As ListViewItem = New ListViewItem(New String() {"Images", "created using 'Bing Image Create'", "https://www.bing.com/create"}, -1)
+		Dim ListViewItem8 As ListViewItem = New ListViewItem(New String() {"Art Room Image", "magnificent view of authentic classic house's exquisite art gallery, digital art"}, -1)
+		Dim ListViewItem9 As ListViewItem = New ListViewItem(New String() {"Bathroom 1 Image", "magnificent view of authentic classic house's bathroom with toilet, no doors, digital art"}, -1)
+		Dim ListViewItem10 As ListViewItem = New ListViewItem(New String() {"Bathroom 2 Image", "magnificent view of authentic classic house's bathroom with basins, and 1 door way, digital art"}, -1)
+		Dim ListViewItem11 As ListViewItem = New ListViewItem(New String() {"Bedroom 1 Image", "magnificent view of authentic classic house's spotless, luxurious bedroom with 1 door, digital art"}, -1)
+		Dim ListViewItem12 As ListViewItem = New ListViewItem(New String() {"Computer Room Image", "magnificent view of authentic classic house's room with computers 1 door, digital art"}, -1)
+		Dim ListViewItem13 As ListViewItem = New ListViewItem(New String() {"Exit Room Image", "magnificent view of authentic classic house, digital art"}, -1)
+		Dim ListViewItem14 As ListViewItem = New ListViewItem(New String() {"Hall Image", "magnificent view of authentic classic house's big hall with 3 doors, digital art"}, -1)
+		Dim ListViewItem15 As ListViewItem = New ListViewItem(New String() {"Kitchen Image", "magnificent view of authentic classic house's spotless kitchen with 2 door way, digital art"}, -1)
+		Dim ListViewItem16 As ListViewItem = New ListViewItem(New String() {"Living Room Image", "magnificent view of authentic classic house's big living room with 6 doors, digital art"}, -1)
+		Dim ListViewItem17 As ListViewItem = New ListViewItem(New String() {"Store Room Image", "magnificent view of authentic classic house's store room with full of stuff, digital art"}, -1)
 		Label1 = New Label()
 		Label2 = New Label()
 		btnClose = New Button()
@@ -88,14 +89,15 @@ Partial Class HowToPlayForm
 		ListViewItem2.Group = ListViewGroup1
 		ListViewItem3.Group = ListViewGroup1
 		ListViewItem4.Group = ListViewGroup1
-		ListView1.Items.AddRange(New ListViewItem() {ListViewItem1, ListViewItem2, ListViewItem3, ListViewItem4})
+		ListViewItem5.Group = ListViewGroup1
+		ListView1.Items.AddRange(New ListViewItem() {ListViewItem1, ListViewItem2, ListViewItem3, ListViewItem4, ListViewItem5})
 		ListView1.Location = New Point(8, 187)
 		ListView1.MultiSelect = False
 		ListView1.Name = "ListView1"
 		ListView1.Size = New Size(859, 154)
 		ListView1.TabIndex = 3
 		ListView1.UseCompatibleStateImageBehavior = False
-		ListView1.View = View.SmallIcon
+		ListView1.View = View.List
 		' 
 		' ListView2
 		' 
@@ -105,9 +107,8 @@ Partial Class HowToPlayForm
 		ListViewGroup3.Header = "Bing Image Query"
 		ListViewGroup3.Name = "ListViewGroup2"
 		ListView2.Groups.AddRange(New ListViewGroup() {ListViewGroup2, ListViewGroup3})
-		ListViewItem5.Group = ListViewGroup2
 		ListViewItem6.Group = ListViewGroup2
-		ListViewItem7.Group = ListViewGroup3
+		ListViewItem7.Group = ListViewGroup2
 		ListViewItem8.Group = ListViewGroup3
 		ListViewItem9.Group = ListViewGroup3
 		ListViewItem10.Group = ListViewGroup3
@@ -117,7 +118,8 @@ Partial Class HowToPlayForm
 		ListViewItem14.Group = ListViewGroup3
 		ListViewItem15.Group = ListViewGroup3
 		ListViewItem16.Group = ListViewGroup3
-		ListView2.Items.AddRange(New ListViewItem() {ListViewItem5, ListViewItem6, ListViewItem7, ListViewItem8, ListViewItem9, ListViewItem10, ListViewItem11, ListViewItem12, ListViewItem13, ListViewItem14, ListViewItem15, ListViewItem16})
+		ListViewItem17.Group = ListViewGroup3
+		ListView2.Items.AddRange(New ListViewItem() {ListViewItem6, ListViewItem7, ListViewItem8, ListViewItem9, ListViewItem10, ListViewItem11, ListViewItem12, ListViewItem13, ListViewItem14, ListViewItem15, ListViewItem16, ListViewItem17})
 		ListView2.Location = New Point(8, 347)
 		ListView2.MultiSelect = False
 		ListView2.Name = "ListView2"
@@ -154,6 +156,7 @@ Partial Class HowToPlayForm
 		Font = New Font("Bookman Old Style", 12F, FontStyle.Regular, GraphicsUnit.Point)
 		FormBorderStyle = FormBorderStyle.FixedDialog
 		HelpButton = True
+		Icon = CType(resources.GetObject("$this.Icon"), Icon)
 		Margin = New Padding(5, 3, 5, 3)
 		MaximizeBox = False
 		Name = "HowToPlayForm"

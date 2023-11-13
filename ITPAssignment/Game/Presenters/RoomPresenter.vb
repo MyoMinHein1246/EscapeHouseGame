@@ -78,6 +78,7 @@
 	End Function
 
 	Private Sub CheckGameOver()
+		' Show noti
 		If HasGameOver() Then
 			ShowInfoMsgBox("Congratulations! The game is over!", "Game Over")
 			NotiPresenter.AddNoti("You can wonder around this marvellous house freely!", SoundType:=SoundPresenter.SoundType.GameOver)

@@ -47,6 +47,7 @@
 		If View.NotiText.Trim().Length < CurrentNoti.Text.Trim().Length And HasStarted Then
 			View.NotiText = CurrentNoti.Text.Substring(0, View.NotiText.Length + 1)
 		ElseIf View.NotiText.Trim.Equals(CurrentNoti.Text.Trim()) And HasStarted Then
+			' If current noti is typed, try getting next
 			If Not NotiTexts.TryDequeue(CurrentNoti) Then
 				CurrentNoti = Nothing
 			End If
@@ -55,11 +56,11 @@
 			' Wait for delay
 			Coundown -= TypingTimer.Interval
 			If Coundown <= 0 And Not IsNothing(CurrentNoti) Then
-				' Type next
-				View.NotiText = ""
+				' Type next if any
 				Coundown = CurrentNoti.Delay
 				SoundPresenter.PlaySoundOnce(CurrentNoti.SoundType)
 				' Update View
+				View.NotiText = ""
 				View.NotiCount = NotiTexts.Count.ToString()
 				HasStarted = True
 			End If
@@ -83,6 +84,7 @@
 			CurrentNoti = NotiTexts.Dequeue
 			Coundown = CurrentNoti.Delay
 			SoundPresenter.PlaySoundOnce(CurrentNoti.SoundType)
+
 			HasStarted = True
 			TypingTimer.Start()
 		End If

@@ -4,7 +4,7 @@ Imports System.Text.Json.Serialization
 
 Module Utils
 	Public Class PersistentManager
-		Private Shared ReadOnly FileName As String = Path.Combine(Application.StartupPath, "data.json")
+		Private Shared ReadOnly FileName As String = Path.Combine(Application.StartupPath, "Escape_From_CODGE_Data_DO_NOT_CHANGE.json")
 
 		' Save player model to a file using JSON serialization
 		Public Shared Function SaveData(Data As SaveData) As Boolean

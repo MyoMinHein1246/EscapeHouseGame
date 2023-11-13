@@ -22,6 +22,7 @@ Partial Class GameForm
 	'Do not modify it using the code editor.
 	<System.Diagnostics.DebuggerStepThrough()>
 	Private Sub InitializeComponent()
+		Dim resources As ComponentModel.ComponentResourceManager = New ComponentModel.ComponentResourceManager(GetType(GameForm))
 		lblRoomName = New Label()
 		lblNoti = New Label()
 		Panel1 = New Panel()
@@ -234,6 +235,7 @@ Partial Class GameForm
 		Font = New Font("Bookman Old Style", 12F, FontStyle.Regular, GraphicsUnit.Point)
 		FormBorderStyle = FormBorderStyle.Fixed3D
 		HelpButton = True
+		Icon = CType(resources.GetObject("$this.Icon"), Icon)
 		Margin = New Padding(6, 2, 6, 2)
 		MinimumSize = New Size(1225, 727)
 		Name = "GameForm"

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34221.43
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ITPAssignment", "ITPAssignment\ITPAssignment.vbproj", "{85CD2851-692F-4DDE-85E3-54BC6CF6C901}"
+Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "ITPAssignment", "ITPAssignment\ITPAssignment.vbproj", "{85CD2851-692F-4DDE-85E3-54BC6CF6C901}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

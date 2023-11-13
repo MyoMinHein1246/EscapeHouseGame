@@ -105,21 +105,26 @@
 	End Sub
 
 	Private Sub btnSubmitAns_Click(sender As Object, e As EventArgs) Handles btnSubmitAns.Click
+		' If room is selected try to unlock that room
 		RoomPresenter.TryUnlock()
 	End Sub
 
 	Private Sub txtAnswer_KeyDown(sender As Object, e As KeyEventArgs) Handles txtAnswer.KeyDown
+		' if enter key pressed
 		If e.KeyCode = Keys.Return Then
+			' If room is selected try to unlock that room
 			RoomPresenter.TryUnlock()
 		End If
 	End Sub
 
 	Private Sub btnPlayer_Click(sender As Object, e As EventArgs) Handles btnPlayer.Click
+		' Show player form
 		Dim PlayerForm As New PlayerForm(PlayerModel, RoomPresenter)
 		PlayerForm.ShowDialog(Me)
 	End Sub
 
 	Private Sub btnHowToPlay_Click(sender As Object, e As EventArgs) Handles btnHowToPlay.Click
+		' Show how to play the game form
 		Dim HowToPlayForm As New HowToPlayForm()
 		HowToPlayForm.ShowDialog(Me)
 	End Sub
