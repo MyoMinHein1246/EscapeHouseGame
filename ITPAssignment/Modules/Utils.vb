@@ -20,7 +20,7 @@ Module Utils
 				ShowInfoMsgBox($"Saved successfully to: {FileName}")
 				Return True
 			Catch ex As Exception
-				ShowErrorMsgBox($"Error saving data: {ex.Message}")
+				ShowErrorMsgBox($"Error saving data: {ex.Message}{ex.Source}{ex.StackTrace}")
 				Return False
 			End Try
 		End Function
@@ -38,7 +38,7 @@ Module Utils
 					Return Nothing
 				End If
 			Catch ex As Exception
-				ShowErrorMsgBox($"Error loading data: {ex.Message}")
+				ShowErrorMsgBox($"Error loading data: {ex.Message}{ex.Source}{ex.StackTrace}")
 				Return Nothing
 			End Try
 		End Function
@@ -82,7 +82,8 @@ Module Utils
 	End Sub
 
 	Public Class SaveData
-		Implements IJsonOnDeserializing
+		Implements IJsonOnDeserializing, IJsonOnSerializing
+
 		Public Property CurrentRoomData As RoomData
 		Public Property UnlockedRoomsData As List(Of RoomData)
 		Public Property ItemsData As List(Of ItemData)
@@ -96,6 +97,18 @@ Module Utils
 			CurrentRoomData = New RoomData()
 			UnlockedRoomsData = New List(Of RoomData)()
 			ItemsData = New List(Of ItemData)()
+		End Sub
+
+		Public Sub OnSerializing() Implements IJsonOnSerializing.OnSerializing
+			If IsNothing(CurrentRoomData) Then
+				CurrentRoomData = New RoomData()
+			End If
+			If IsNothing(UnlockedRoomsData) Then
+				UnlockedRoomsData = New List(Of RoomData)()
+			End If
+			If IsNothing(ItemsData) Then
+				ItemsData = New List(Of ItemData)()
+			End If
 		End Sub
 	End Class
 End Module

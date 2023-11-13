@@ -1,7 +1,7 @@
 ﻿Imports System.Text.Json.Serialization
 
 Public Class ItemModel
-	Private Property ItemData As ItemData
+	Private Property ItemData As New ItemData
 
 	Public ReadOnly Property GetName As String
 		Get
