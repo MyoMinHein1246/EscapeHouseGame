@@ -71,18 +71,23 @@ Public Class PlayerModel
 	Friend Function LoadPlayerData(PlayerData As SaveData) As Boolean
 		' Update noti
 		NotiPresenter.ShowNoti(True, True)
-		' Update current room
-		Me.PlayerData.CurrentRoom.CopyData(PlayerData.CurrentRoomData)
 		' Update unlocked rooms
 		Me.PlayerData.UnlockedRooms.Clear()
 		For Each roomData In PlayerData.UnlockedRoomsData
-			Me.PlayerData.UnlockedRooms.Add(New RoomModel.RoomBuilder().WithRoomData(roomData).Build(True))
+			Me.PlayerData.UnlockedRooms.Add(New RoomModel.RoomBuilder(Nothing).WithRoomData(roomData).Build(True))
 		Next
 		' Update items
 		Me.PlayerData.Items.Clear()
 		For Each itemData In PlayerData.ItemsData
 			Me.PlayerData.Items.Add(New ItemModel(itemData))
 		Next
+		Dim currentRoom = GetRoom(PlayerData.CurrentRoomData.Name)
+		If Not IsNothing(currentRoom) Then
+			' Update current room
+			Me.PlayerData.CurrentRoom.CopyData(currentRoom.ComposeRoomData())
+			' Update room picture
+			Me.PlayerData.CurrentRoom.RoomPicture = currentRoom.RoomPicture
+		End If
 
 		Return True
 	End Function

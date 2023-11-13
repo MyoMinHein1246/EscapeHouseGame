@@ -71,6 +71,15 @@
 		End Set
 	End Property
 
+	Public Property RoomPicture As Image Implements IRoomView.RoomPicture
+		Get
+			Return picRoom.Image
+		End Get
+		Set(value As Image)
+			picRoom.Image = value
+		End Set
+	End Property
+
 	Public NotiPresenter As NotiPresenter
 	Public PlayerModel As PlayerModel
 	Public RoomPresenter As RoomPresenter
@@ -82,7 +91,7 @@
 		InitializeComponent()
 
 		' Add any initialization after the InitializeComponent() call.
-		GenerateRooms()
+		GenerateRooms(My.Resources.ResourceManager)
 
 		SoundPresenter = New SoundPresenter(My.Resources.ResourceManager)
 		NotiPresenter = New NotiPresenter(Me, SoundPresenter)

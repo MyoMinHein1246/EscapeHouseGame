@@ -22,6 +22,7 @@ Module Rooms
 	Public Function AddRoom(Room As RoomModel, Optional Replace As Boolean = False) As RoomModel
 		' If replace and exist
 		If Replace And GameRooms.ContainsKey(Room?.GetName) Then
+			Room.RoomPicture = GameRooms.Item(Room.GetName).RoomPicture
 			' Remove the room first
 			GameRooms.Remove(Room.GetName)
 		End If
@@ -37,35 +38,36 @@ Module Rooms
 		Return Nothing
 	End Function
 
-	Public Sub GenerateRooms()
+	Public Sub GenerateRooms(ByRef ResourceManager As Resources.ResourceManager)
 		GeneratePuzzle()
 
-		Dim Hall = New RoomBuilder() _
+		Dim Hall = New RoomBuilder(ResourceManager) _
 							.WithName("Hall") _
 							.WithText("What a Hall!") _
 							.WithToRooms(New List(Of String)({"Living Room", "Store Room", "Kitchen"})) _
-							.Build
+							.Build()
 
 		' Make Hall the default room
 		DefaultRoom = Hall
 
 		' Other rooms
-		Dim LivingRoom = New RoomBuilder() _
+		Dim LivingRoom = New RoomBuilder(ResourceManager) _
 							.WithName("Living Room") _
 							.WithText("OMG! This is the biggest living room I have ever seen!") _
 							.WithFromRooms(New List(Of String)({GetDefaultRoom.GetName})) _
 							.WithToRooms(New List(Of String)({"Art Room", "Bathroom 1", "Bedroom", "Computer Room"})) _
-		.WithPuzzle(KeyboardPuzzle) _
+							.WithPuzzle(KeyboardPuzzle) _
 							.Build()
-		Dim Bathroom1 = New RoomBuilder() _
+
+		Dim Bathroom1 = New RoomBuilder(ResourceManager) _
 							.WithName("Bathroom 1") _
 							.WithText("Wow! This bathroom is so clean and it also has toilet. Hmm... What might I find here?") _
 							.WithFromRooms(New List(Of String)({GetDefaultRoom.GetName, LivingRoom.GetName})) _
 							.WithPuzzle(KeyboardPuzzle) _
 							.Build()
-		Dim ComputerRoom = New RoomBuilder() _
+		Dim ComputerRoom = New RoomBuilder(ResourceManager) _
 							.WithName("Computer Room") _
-							.WithText("Holy! Look at all those broken computers. Hmm... What might I find here?") _
+							.WithText("Holy! Look at all those computers. Hmm... What might I find here?") _
 							.WithFromRooms(New List(Of String)({GetDefaultRoom.GetName, LivingRoom.GetName})) _
 							.WithToRooms(New List(Of String)({"Bathroom 2"})) _
 							.WithRequiredItems(New List(Of ItemModel)({ArtRoomKey, ComputerRoomKey})) _

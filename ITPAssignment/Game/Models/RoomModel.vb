@@ -2,15 +2,16 @@
 
 Public Class RoomModel
 	Private RoomData As RoomData
+	Public RoomPicture As Image
 	Public ReadOnly Property GetName() As String
 		Get
 			Return RoomData.Name
 		End Get
 	End Property
 
-	Public ReadOnly Property GetText() As String
+	Public ReadOnly Property GetTexts() As List(Of String)
 		Get
-			Return RoomData.Text
+			Return RoomData.Texts
 		End Get
 	End Property
 
@@ -154,7 +155,7 @@ Public Class RoomModel
 	Public Function ComposeRoomData() As RoomData
 		Return New RoomData With {
 			.Name = GetName,
-			.Text = GetText,
+			.Texts = GetTexts,
 			.FromRooms = GetFromRooms,
 			.ToRooms = GetToRooms,
 			.Puzzle = GetPuzzle,
@@ -164,15 +165,33 @@ Public Class RoomModel
 
 	Public Class RoomBuilder
 		Private RoomData As New RoomData
+		Private RoomPicture As Image
+		Private ReadOnly ResourceManager
 
-		Public Function WithName(Name As String) As RoomBuilder
-			Me.RoomData.Name = Name
+		Public Sub New(ByRef ResourceManager As Resources.ResourceManager)
+			Me.ResourceManager = ResourceManager
+		End Sub
+
+		Public Function WithRoomPicture(Picture As Image) As RoomBuilder
+			Me.RoomPicture = Picture
 
 			Return Me
 		End Function
 
+		Public Function WithName(Name As String) As RoomBuilder
+			Me.RoomData.Name = Name
+
+			Return WithRoomPicture(DirectCast(ResourceManager.GetObject(Name.Replace(" ", "")), Image))
+		End Function
+
 		Public Function WithText(Text As String) As RoomBuilder
-			RoomData.Text = Text
+			RoomData.Texts.Add(Text)
+
+			Return Me
+		End Function
+
+		Public Function WithTexts(Texts As List(Of String)) As RoomBuilder
+			RoomData.Texts = Texts
 
 			Return Me
 		End Function
@@ -208,7 +227,8 @@ Public Class RoomModel
 
 		Public Function Build(Optional Replace As Boolean = False) As RoomModel
 			Dim Room As New RoomModel With {
-				.RoomData = Me.RoomData
+				.RoomData = Me.RoomData,
+				.RoomPicture = RoomPicture
 			}
 
 			AddRoom(Room, Replace)
@@ -236,9 +256,9 @@ End Class
 
 Public Class RoomData
 	Public Property Name As String
-	Public Property Text As String
-	Public Property FromRooms As List(Of String) ' Previous Rooms
-	Public Property ToRooms As List(Of String) ' Forward Rooms
+	Public Property Texts As New List(Of String)()
+	Public Property FromRooms As New List(Of String)() ' Previous Rooms
+	Public Property ToRooms As New List(Of String)() ' Forward Rooms
 	Public Property Puzzle As PuzzleModel
 	Public Property RequiredItems As List(Of ItemModel)
 

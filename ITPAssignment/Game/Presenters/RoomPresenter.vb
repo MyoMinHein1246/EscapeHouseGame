@@ -51,8 +51,9 @@
 			View.AvailableRoomsName = Room.GetAvailableRooms
 			View.SecretQuestion = ""
 			View.SecretAnswer = ""
+			View.RoomPicture = Room.RoomPicture
 			' Show noti of room's text
-			NotiPresenter.AddNoti(Room.GetText)
+			NotiPresenter.AddNotis(Room.GetTexts)
 			NotiPresenter.ShowNoti(True)
 
 			If Not Room.HasPuzzleSolved Then
@@ -108,7 +109,7 @@
 			' Stop previous noti
 			NotiPresenter.AddNoti("Yes! I solved it. Smart me.")
 			' Show noti of room's text
-			NotiPresenter.AddNoti(PlayerModel.GetCurrentRoom.GetText)
+			NotiPresenter.AddNotis(PlayerModel.GetCurrentRoom.GetTexts)
 			' Show noti
 			NotiPresenter.ShowNoti(True)
 		Else

@@ -19,6 +19,12 @@ Public Class NotiPresenter
 		NotiTexts.Clear()
 	End Sub
 
+	Public Sub AddNotis(Texts As List(Of String), Optional Format As Boolean = True)
+		For Each noti In Texts
+			AddNoti(noti, Format)
+		Next
+	End Sub
+
 	Public Sub AddNoti(NotiText As String, Optional Format As Boolean = True)
 		If Format Then
 			NotiTexts.Enqueue(FormatText(NotiText))
