@@ -16,9 +16,9 @@
 		NotiTexts.Clear()
 	End Sub
 
-	Public Sub AddNotis(Texts As List(Of String), Optional Format As Boolean = True)
+	Public Sub AddNotis(Texts As List(Of String), Optional Delay As Double = 5000, Optional Format As Boolean = True)
 		For Each noti In Texts
-			AddNoti(noti, Format)
+			AddNoti(noti, Delay, Format)
 		Next
 	End Sub
 
@@ -40,23 +40,24 @@
 		End If
 
 		' Check if there are characters left to type
-		If Not CurrentNoti.Equals(View.NotiText) Then
-			' Add the next character to the label
-			HasStarted = True
-			If View.NotiText.Length + 1 <= CurrentNoti.Text.Trim().Length Then
-				View.NotiText = CurrentNoti.Text.Substring(0, View.NotiText.Length + 1)
-			ElseIf NotiTexts.Count > 0 Then
-				Coundown -= TypingTimer.Interval
-				If Coundown <= 0 Then
-					CurrentNoti = NotiTexts.Dequeue()
-					Coundown = CurrentNoti.Delay
-					' Update View
-					View.NotiCount = NotiTexts.Count.ToString()
-					SoundPresenter.PlaySoundOnce(SoundPresenter.SoundType.Noti)
-					View.NotiText = ""
-				End If
-			Else
+		If View.NotiText.Trim().Length < CurrentNoti.Text.Trim().Length And HasStarted Then
+			View.NotiText = CurrentNoti.Text.Substring(0, View.NotiText.Length + 1)
+		ElseIf View.NotiText.Trim.Equals(CurrentNoti.Text.Trim()) And HasStarted Then
+			If Not NotiTexts.TryDequeue(CurrentNoti) Then
 				CurrentNoti = Nothing
+			End If
+			HasStarted = False
+		Else
+			' Wait for delay
+			Coundown -= TypingTimer.Interval
+			If Coundown <= 0 And Not IsNothing(CurrentNoti) Then
+				' Type next
+				View.NotiText = ""
+				SoundPresenter.PlaySoundOnce(SoundPresenter.SoundType.Noti)
+				Coundown = CurrentNoti.Delay
+				' Update View
+				View.NotiCount = NotiTexts.Count.ToString()
+				HasStarted = True
 			End If
 		End If
 	End Sub
@@ -67,7 +68,7 @@
 		End If
 
 		If ClearInEnd Then
-			AddNoti("...", False)
+			AddNoti("...", 1000, False)
 		End If
 
 		If Interrupt Then
@@ -78,6 +79,7 @@
 			SoundPresenter.PlaySoundOnce(SoundPresenter.SoundType.Noti)
 			CurrentNoti = NotiTexts.Dequeue
 			Coundown = CurrentNoti.Delay
+			HasStarted = True
 			TypingTimer.Start()
 		End If
 	End Sub
