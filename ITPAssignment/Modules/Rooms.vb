@@ -4,10 +4,19 @@ Module Rooms
 	Public GameRooms As New Dictionary(Of String, RoomModel)
 
 	Private DefaultRoom As RoomModel
+	Private ExitRoom As RoomModel
+
 	' Getter for Default Room
 	Public ReadOnly Property GetDefaultRoom As RoomModel
 		Get
 			Return DefaultRoom
+		End Get
+	End Property
+
+	' Getter for Default Room
+	Public ReadOnly Property GetExitRoom As RoomModel
+		Get
+			Return ExitRoom
 		End Get
 	End Property
 
@@ -47,8 +56,15 @@ Module Rooms
 							.WithToRooms(New List(Of String)({"Living Room", "Store Room", "Kitchen"})) _
 							.Build()
 
+		Dim ExitBuilder = New RoomBuilder(ResourceManager) _
+							.WithName("Exit") _
+							.WithTexts(New List(Of String)({"Yay!!! I got exit! I felt so lonely in that big house.", "But man, that was some incredible experience!"})) _
+							.WithToRooms(New List(Of String)({"Living Room", "Store Room", "Kitchen"})) _
+							.Build()
+
 		' Make Hall the default room
 		DefaultRoom = Hall
+		ExitRoom = ExitBuilder
 
 		' Other rooms
 		Dim LivingRoom = New RoomBuilder(ResourceManager) _
@@ -63,7 +79,7 @@ Module Rooms
 							.WithName("Bathroom 1") _
 							.WithText("Wow! This bathroom is so clean and it also has toilet. Hmm... What might I find here?") _
 							.WithFromRooms(New List(Of String)({GetDefaultRoom.GetName, LivingRoom.GetName})) _
-							.WithPuzzle(KeyboardPuzzle) _
+							.WithPuzzle(KeyboardPuzzle, False) _
 							.Build()
 		Dim ComputerRoom = New RoomBuilder(ResourceManager) _
 							.WithName("Computer Room") _

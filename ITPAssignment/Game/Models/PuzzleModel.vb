@@ -39,7 +39,7 @@ Public Class PuzzleModel
 		Return False
 	End Function
 
-	Public Shared Function Copy(OtherPuzzle As PuzzleModel) As PuzzleModel
+	Public Shared Function Copy(OtherPuzzle As PuzzleModel, Optional CopyRewards As Boolean = True) As PuzzleModel
 		' If other puzzle to copy is nothing
 		If IsNothing(OtherPuzzle) Then
 			Return Nothing
@@ -49,7 +49,7 @@ Public Class PuzzleModel
 		Return New PuzzleModel(
 			OtherPuzzle.Question,
 			OtherPuzzle.Answer,
-			OtherPuzzle.Rewards,
+			If(CopyRewards, OtherPuzzle.Rewards, Nothing),
 			OtherPuzzle.Hint,
 			OtherPuzzle.TriesBeforeHint
 		)

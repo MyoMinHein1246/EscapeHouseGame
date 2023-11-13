@@ -33,6 +33,10 @@ Public Class PlayerModel
 	End Sub
 
 	Public Sub ClaimItems(rewards As List(Of ItemModel))
+		If IsNothing(rewards) Then
+			Return
+		End If
+
 		For Each reward In rewards
 			ClaimItem(reward)
 		Next

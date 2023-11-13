@@ -1,6 +1,4 @@
-﻿Imports System.Reflection.Emit
-
-Public Class NotiPresenter
+﻿Public Class NotiPresenter
 	Private ReadOnly View As INotiView
 	Private ReadOnly SoundPresenter As SoundPresenter
 	Private ReadOnly NotiTexts As New Queue(Of String)
@@ -62,7 +60,7 @@ Public Class NotiPresenter
 					View.NotiText = ""
 				End If
 			Else
-					CurrentNotiText = ""
+				CurrentNotiText = ""
 			End If
 		End If
 	End Sub
@@ -76,7 +74,7 @@ Public Class NotiPresenter
 			AddNoti("...", False)
 		End If
 
-		If Interrupt And HasStarted Then
+		If Interrupt Then
 			EndNoti(True)
 		End If
 		SoundPresenter.PlaySoundOnce(SoundPresenter.SoundType.Noti)
@@ -88,7 +86,7 @@ Public Class NotiPresenter
 		End If
 	End Sub
 
-	Private Sub EndNoti(Optional ClearNotiText As Boolean = False)
+	Private Sub EndNoti(Optional ClearNotiText As Boolean = False, Optional ClearQueue As Boolean = False)
 		If HasStarted Then
 			TypingTimer.Stop()
 			HasStarted = False
@@ -99,6 +97,10 @@ Public Class NotiPresenter
 
 		If ClearNotiText Then
 			View.NotiText = ""
+		End If
+
+		If ClearQueue Then
+			NotiTexts.Clear()
 		End If
 	End Sub
 End Class

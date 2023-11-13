@@ -208,8 +208,8 @@ Public Class RoomModel
 			Return Me
 		End Function
 
-		Public Function WithPuzzle(Puzzle As PuzzleModel) As RoomBuilder
-			RoomData.Puzzle = PuzzleModel.Copy(Puzzle)
+		Public Function WithPuzzle(Puzzle As PuzzleModel, Optional CopyRewards As Boolean = True) As RoomBuilder
+			RoomData.Puzzle = PuzzleModel.Copy(Puzzle, CopyRewards)
 			Return Me
 		End Function
 

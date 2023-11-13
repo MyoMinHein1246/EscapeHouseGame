@@ -60,6 +60,9 @@
 				' Ask puzzle question if any
 				AskQuestion(Room.GetPuzzle.Question)
 			End If
+
+			' Has player entered exit room?
+			CheckGameOver()
 			Return True
 		End If
 
@@ -70,6 +73,17 @@
 		' Noti player
 		UnlockRoom(Nothing, Room.GetName)
 		Return False
+	End Function
+
+	Private Sub CheckGameOver()
+		If HasGameOver() Then
+			NotiPresenter.AddNoti("- Congratulations! The game is over! You can wonder around this marvellous house freely!")
+			NotiPresenter.ShowNoti()
+		End If
+	End Sub
+
+	Private Function HasGameOver() As Boolean
+		Return PlayerModel.GetCurrentRoom.Equals(GetExitRoom)
 	End Function
 
 	Private Sub AskQuestion(Question As String)
