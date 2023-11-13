@@ -26,9 +26,9 @@ Public Class NotiPresenter
 		View.NotiCount = NotiTexts.Count.ToString()
 	End Sub
 
-	Private Sub TypingTimer_Tick(sender As Object, e As EventArgs) Handles TypingTimer.Tick
+	Private Async Sub TypingTimer_Tick(sender As Object, e As EventArgs) Handles TypingTimer.Tick
 		' If Text to type does not exist
-		If IsNothing(CurrentNotiText) OrElse CurrentNotiText.Length = 0 Then
+		If IsNothing(CurrentNotiText) OrElse CurrentNotiText.Equals("") OrElse CurrentNotiText.Length = 0 Then
 			EndNoti()
 			Return
 		End If
@@ -37,12 +37,15 @@ Public Class NotiPresenter
 		If Not CurrentNotiText.Equals(View.NotiText) Then
 			' Add the next character to the label
 			HasStarted = True
-			View.NotiText = CurrentNotiText.Substring(0, View.NotiText.Length + 1)
+			If View.NotiText.Length + 1 <= CurrentNotiText.Length Then
+				View.NotiText = CurrentNotiText.Substring(0, View.NotiText.Length + 1)
+			End If
 		Else
 			' Update View
 			View.NotiCount = NotiTexts.Count.ToString()
 
 			If NotiTexts.TryDequeue(CurrentNotiText) Then
+				Await Task.Delay(5000)
 				SoundPresenter.PlaySoundOnce(SoundPresenter.SoundType.Noti)
 				View.NotiText = ""
 			Else
