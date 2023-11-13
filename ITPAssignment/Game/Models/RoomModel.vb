@@ -102,7 +102,7 @@ Public Class RoomModel
 			msg = $"'{RoomData.Name}' is locked! Hmm... Seems like I will need a specific item for this one."
 			Return False
 		ElseIf Not item.CanUse Then
-			msg = $"I cannot use '{item.GetName}' anymore."
+			msg = $"No. I cannot use '{item.GetName}' anymore."
 			Return False
 		End If
 

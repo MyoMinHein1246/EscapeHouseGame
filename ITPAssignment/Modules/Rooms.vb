@@ -48,18 +48,22 @@ Module Rooms
 	End Function
 
 	Public Sub GenerateRooms(ByRef ResourceManager As Resources.ResourceManager)
+		GameRooms.Clear()
 		GeneratePuzzle()
 
+		' Create Rooms
 		Dim Hall = New RoomBuilder(ResourceManager) _
 							.WithName("Hall") _
 							.WithText("What a Hall!") _
-							.WithToRooms(New List(Of String)({"Living Room", "Store Room", "Kitchen"})) _
+							.WithToRooms(New List(Of String)({"Art Room", "Kitchen", "Living Room", "Store Room"})) _
 							.Build()
 
 		Dim ExitBuilder = New RoomBuilder(ResourceManager) _
 							.WithName("Exit") _
 							.WithTexts(New List(Of String)({"Yay!!! I got exit! I felt so lonely in that big house.", "But man, that was some incredible experience!"})) _
-							.WithToRooms(New List(Of String)({"Living Room", "Store Room", "Kitchen"})) _
+							.WithToRooms(New List(Of String)({"Living Room"})) _
+							.WithPuzzle(LetterEPuzzle, False) _
+							.WithRequiredItems(New List(Of ItemModel)({ComputerRoomKey, ExitKey})) _
 							.Build()
 
 		' Make Hall the default room
@@ -71,22 +75,50 @@ Module Rooms
 							.WithName("Living Room") _
 							.WithText("OMG! This is the biggest living room I have ever seen!") _
 							.WithFromRooms(New List(Of String)({GetDefaultRoom.GetName})) _
-							.WithToRooms(New List(Of String)({"Art Room", "Bathroom 1", "Bedroom", "Computer Room"})) _
+							.WithToRooms(New List(Of String)({"Bathroom 1", "Bedroom", "Computer Room", GetExitRoom.GetName})) _
 							.WithPuzzle(KeyboardPuzzle) _
 							.Build()
+		Dim KitchenRoom = New RoomBuilder(ResourceManager) _
+							.WithName("Kitchen") _
+							.WithText("Smells delicious! Hmm... What might I find here?") _
+							.WithFromRooms(New List(Of String)({GetDefaultRoom.GetName})) _
+							.WithToRooms(New List(Of String)({"Bathroom 2"})) _
+							.WithPuzzle(FootstepPuzzle) _
+							.Build()
 
-		Dim Bathroom1 = New RoomBuilder(ResourceManager) _
-							.WithName("Bathroom 1") _
-							.WithText("Wow! This bathroom is so clean and it also has toilet. Hmm... What might I find here?") _
-							.WithFromRooms(New List(Of String)({GetDefaultRoom.GetName, LivingRoom.GetName})) _
-							.WithPuzzle(KeyboardPuzzle, False) _
+		' End rooms without forward rooms
+		Dim ArtRoom = New RoomBuilder(ResourceManager) _
+							.WithName("Art Room") _
+							.WithTexts(New List(Of String)({"Marvellous! Look at all these paintings! So elegant!", "Huh... Is that Mona Lisa..."})) _
+							.WithFromRooms(New List(Of String)({GetDefaultRoom.GetName})) _
 							.Build()
 		Dim ComputerRoom = New RoomBuilder(ResourceManager) _
 							.WithName("Computer Room") _
 							.WithText("Holy! Look at all those computers. Hmm... What might I find here?") _
 							.WithFromRooms(New List(Of String)({GetDefaultRoom.GetName, LivingRoom.GetName})) _
-							.WithToRooms(New List(Of String)({"Bathroom 2"})) _
+							.WithPuzzle(CoffinPuzzle) _
 							.WithRequiredItems(New List(Of ItemModel)({ArtRoomKey, ComputerRoomKey})) _
+							.Build()
+		Dim Bathroom1 = New RoomBuilder(ResourceManager) _
+							.WithName("Bathroom 1") _
+							.WithText("Wow! This bathroom is so clean and it also has toilet. Hmm... What might I find here?") _
+							.WithFromRooms(New List(Of String)({GetDefaultRoom.GetName, LivingRoom.GetName})) _
+							.Build()
+		Dim Bathroom2 = New RoomBuilder(ResourceManager) _
+							.WithName("Bathroom 2") _
+							.WithText($"Another bathroom near '{KitchenRoom.GetName}'!") _
+							.WithFromRooms(New List(Of String)({GetDefaultRoom.GetName, KitchenRoom.GetName})) _
+							.Build()
+		Dim Bedroom = New RoomBuilder(ResourceManager) _
+							.WithName("Bedroom 1") _
+							.WithText("Wah... I feel sleepy. The bed seems cozy. Hmm... What might I find here?") _
+							.WithFromRooms(New List(Of String)({GetDefaultRoom.GetName, LivingRoom.GetName})) _
+							.Build()
+		Dim StoreRoom = New RoomBuilder(ResourceManager) _
+							.WithName("Store Room") _
+							.WithText("I must not lost my way out! This is so big and messy. Hmm... What might I find here?") _
+							.WithFromRooms(New List(Of String)({GetDefaultRoom.GetName})) _
+							.WithPuzzle(CloudPuzzle) _
 							.Build()
 	End Sub
 End Module

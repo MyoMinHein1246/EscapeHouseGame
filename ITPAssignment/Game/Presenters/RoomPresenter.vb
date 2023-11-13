@@ -121,14 +121,14 @@
 			View.SecretQuestion = ""
 			View.SecretAnswer = ""
 			' Stop previous noti
-			NotiPresenter.AddNoti("Yes! I solved it. Smart me.")
+			NotiPresenter.AddNoti("Yes! I solved it. Smart me.", 2000)
 			' Show noti of room's text
 			NotiPresenter.AddNotis(PlayerModel.GetCurrentRoom.GetTexts)
 			' Show noti
-			NotiPresenter.ShowNoti(True)
+			NotiPresenter.ShowNoti(True, True)
 		Else
 			' Show noti
-			NotiPresenter.AddNoti("Wrong! Ahh... I should try again.")
+			NotiPresenter.AddNoti("Wrong! Ahh... I should try again.", 2000)
 			' AskQuestion(PlayerModel.GetCurrentRoom.GetPuzzle.Question)
 
 			' If player might need hint
@@ -164,13 +164,13 @@
 		' Try unlock
 		Dim result = Room.UnlockRoom(item, msg)
 
-		NotiPresenter.AddNoti(msg)
+		NotiPresenter.AddNoti(msg, 2000)
 
 		If Not IsNothing(item) AndAlso Not item.CanUse Then
-			NotiPresenter.AddNoti($"Oh... I can't use '{item.GetName}' anymore.")
+			NotiPresenter.AddNoti($"Oh... I can't use '{item.GetName}' anymore.", 3000)
 		End If
 
-		NotiPresenter.ShowNoti()
+		NotiPresenter.ShowNoti(True, True)
 		Return result
 	End Function
 

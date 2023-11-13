@@ -31,10 +31,12 @@ Public Class PuzzleModel
 	Public Function Solve(Answer As String) As Boolean
 		Tries += 1
 
-		If Me.Answer.ToUpper.Equals(Answer.ToUpper) Then
-			HasSolved = True
-			Return True
-		End If
+		For Each word In Answer.Split(" ", StringSplitOptions.TrimEntries)
+			If Me.Answer.ToUpper.Equals(word.ToUpper) Then
+				HasSolved = True
+				Return True
+			End If
+		Next
 
 		Return False
 	End Function

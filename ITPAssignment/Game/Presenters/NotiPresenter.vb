@@ -1,13 +1,12 @@
 ﻿Public Class NotiPresenter
 	Private ReadOnly View As INotiView
 	Private ReadOnly SoundPresenter As SoundPresenter
-	Private ReadOnly NotiTexts As New Queue(Of String)
+	Private ReadOnly NotiTexts As New Queue(Of Noti)
 	Private WithEvents TypingTimer As New Timer()
-	Private CurrentNotiText As String = ""
+	Private CurrentNoti As Noti
 	Private HasStarted = False
 
 	Private Coundown As Double = 0
-	Private Delay As Double = 5000
 
 	Public Sub New(View As INotiView, ByRef SoundPresenter As SoundPresenter)
 		Me.View = View
@@ -23,11 +22,11 @@
 		Next
 	End Sub
 
-	Public Sub AddNoti(NotiText As String, Optional Format As Boolean = True)
+	Public Sub AddNoti(NotiText As String, Optional Delay As Double = 5000, Optional Format As Boolean = True)
 		If Format Then
-			NotiTexts.Enqueue(FormatText(NotiText))
+			NotiTexts.Enqueue(New Noti(FormatText(NotiText), Delay))
 		Else
-			NotiTexts.Enqueue(NotiText)
+			NotiTexts.Enqueue(New Noti(NotiText, Delay))
 		End If
 		' Update View
 		View.NotiCount = NotiTexts.Count.ToString()
@@ -35,32 +34,29 @@
 
 	Private Sub TypingTimer_Tick(sender As Object, e As EventArgs) Handles TypingTimer.Tick
 		' If Text to type does not exist
-		If String.IsNullOrEmpty(CurrentNotiText) Then
+		If IsNothing(CurrentNoti) OrElse String.IsNullOrEmpty(CurrentNoti.Text) Then
 			EndNoti()
 			Return
 		End If
 
 		' Check if there are characters left to type
-		If Not CurrentNotiText.Equals(View.NotiText) Then
+		If Not CurrentNoti.Equals(View.NotiText) Then
 			' Add the next character to the label
 			HasStarted = True
-			If View.NotiText.Length + 1 <= CurrentNotiText.Length Then
-				View.NotiText = CurrentNotiText.Substring(0, View.NotiText.Length + 1)
-			End If
-		Else
-
-			If NotiTexts.Count > 0 Then
+			If View.NotiText.Length + 1 <= CurrentNoti.Text.Trim().Length Then
+				View.NotiText = CurrentNoti.Text.Substring(0, View.NotiText.Length + 1)
+			ElseIf NotiTexts.Count > 0 Then
 				Coundown -= TypingTimer.Interval
 				If Coundown <= 0 Then
-					Coundown = Delay
-					CurrentNotiText = NotiTexts.Dequeue()
+					CurrentNoti = NotiTexts.Dequeue()
+					Coundown = CurrentNoti.Delay
 					' Update View
 					View.NotiCount = NotiTexts.Count.ToString()
 					SoundPresenter.PlaySoundOnce(SoundPresenter.SoundType.Noti)
 					View.NotiText = ""
 				End If
 			Else
-				CurrentNotiText = ""
+				CurrentNoti = Nothing
 			End If
 		End If
 	End Sub
@@ -77,11 +73,11 @@
 		If Interrupt Then
 			EndNoti(True)
 		End If
-		SoundPresenter.PlaySoundOnce(SoundPresenter.SoundType.Noti)
 
 		If Not HasStarted Then
-			Coundown = Delay
-			CurrentNotiText = NotiTexts.Dequeue
+			SoundPresenter.PlaySoundOnce(SoundPresenter.SoundType.Noti)
+			CurrentNoti = NotiTexts.Dequeue
+			Coundown = CurrentNoti.Delay
 			TypingTimer.Start()
 		End If
 	End Sub
@@ -89,8 +85,9 @@
 	Private Sub EndNoti(Optional ClearNotiText As Boolean = False, Optional ClearQueue As Boolean = False)
 		If HasStarted Then
 			TypingTimer.Stop()
+			Coundown = 0
 			HasStarted = False
-			CurrentNotiText = ""
+			CurrentNoti = Nothing
 			' Update View
 			View.NotiCount = NotiTexts.Count.ToString()
 		End If
@@ -103,4 +100,14 @@
 			NotiTexts.Clear()
 		End If
 	End Sub
+
+	Public Structure Noti
+		Public Property Text As String
+		Public Property Delay As Double
+
+		Public Sub New(Text As String, Delay As Double)
+			Me.Text = Text
+			Me.Delay = Delay
+		End Sub
+	End Structure
 End Class

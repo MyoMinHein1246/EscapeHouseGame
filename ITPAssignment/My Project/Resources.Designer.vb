@@ -63,6 +63,16 @@ Namespace My.Resources
         '''<summary>
         '''  Looks up a localized resource of type System.Drawing.Bitmap.
         '''</summary>
+        Friend ReadOnly Property _Exit() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("Exit", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized resource of type System.Drawing.Bitmap.
+        '''</summary>
         Friend ReadOnly Property ArtRoom() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("ArtRoom", resourceCulture)
@@ -173,16 +183,6 @@ Namespace My.Resources
         Friend ReadOnly Property smile_face_ascii() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("smile_face_ascii", resourceCulture)
-                Return CType(obj,System.Drawing.Bitmap)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized resource of type System.Drawing.Bitmap.
-        '''</summary>
-        Friend ReadOnly Property SplashScreen() As System.Drawing.Bitmap
-            Get
-                Dim obj As Object = ResourceManager.GetObject("SplashScreen", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
