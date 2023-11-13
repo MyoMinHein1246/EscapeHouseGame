@@ -105,10 +105,11 @@
 			' Update View
 			View.SecretQuestion = ""
 			View.SecretAnswer = ""
-			' Show noti
+			' Stop previous noti
 			NotiPresenter.AddNoti("Yes! I solved it. Smart me.")
 			' Show noti of room's text
 			NotiPresenter.AddNoti(PlayerModel.GetCurrentRoom.GetText)
+			' Show noti
 			NotiPresenter.ShowNoti(True)
 		Else
 			' Show noti
