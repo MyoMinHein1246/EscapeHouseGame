@@ -112,7 +112,12 @@
 		If PlayerModel.GetCurrentRoom.HasPuzzleSolved Then
 			For Each item In View.SecretAnswer.Split(", ", StringSplitOptions.TrimEntries)
 				If Not String.IsNullOrEmpty(item) Then
-					UnlockRoom(PlayerModel.GetItem(item), View.CurrentToRoomName)
+					Dim ItemModel = PlayerModel.GetItem(item)
+					If IsNothing(ItemModel) Then
+						NotiPresenter.AddNoti($"Ohh... I don't have '{item}' in my inventory.")
+						NotiPresenter.ShowNoti(ClearInEnd:=True)
+					End If
+					UnlockRoom(ItemModel, View.CurrentToRoomName)
 				End If
 			Next
 		Else

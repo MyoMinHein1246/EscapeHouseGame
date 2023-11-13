@@ -36,6 +36,7 @@ Partial Class GameForm
 		lblSecurityQuestion = New Label()
 		lblSecurity = New Label()
 		btnPlayer = New Button()
+		btnHowToPlay = New Button()
 		Panel1.SuspendLayout()
 		CType(picRoom, ComponentModel.ISupportInitialize).BeginInit()
 		Panel2.SuspendLayout()
@@ -160,7 +161,7 @@ Partial Class GameForm
 		btnSubmitAns.Name = "btnSubmitAns"
 		btnSubmitAns.Size = New Size(640, 40)
 		btnSubmitAns.TabIndex = 3
-		btnSubmitAns.Text = "Submit"
+		btnSubmitAns.Text = "&Submit"
 		btnSubmitAns.UseVisualStyleBackColor = True
 		' 
 		' txtAnswer
@@ -198,18 +199,30 @@ Partial Class GameForm
 		' 
 		' btnPlayer
 		' 
+		btnPlayer.Anchor = AnchorStyles.Top Or AnchorStyles.Right
 		btnPlayer.Location = New Point(1033, 5)
 		btnPlayer.Name = "btnPlayer"
 		btnPlayer.Size = New Size(161, 40)
 		btnPlayer.TabIndex = 8
-		btnPlayer.Text = "Player"
+		btnPlayer.Text = "&Player"
 		btnPlayer.UseVisualStyleBackColor = True
+		' 
+		' btnHowToPlay
+		' 
+		btnHowToPlay.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+		btnHowToPlay.Location = New Point(866, 5)
+		btnHowToPlay.Name = "btnHowToPlay"
+		btnHowToPlay.Size = New Size(161, 40)
+		btnHowToPlay.TabIndex = 9
+		btnHowToPlay.Text = "&How to Play"
+		btnHowToPlay.UseVisualStyleBackColor = True
 		' 
 		' GameForm
 		' 
 		AutoScaleDimensions = New SizeF(13F, 23F)
 		AutoScaleMode = AutoScaleMode.Font
 		ClientSize = New Size(1203, 676)
+		Controls.Add(btnHowToPlay)
 		Controls.Add(btnPlayer)
 		Controls.Add(Panel2)
 		Controls.Add(btnEnterRoom)
@@ -250,4 +263,5 @@ Partial Class GameForm
 	Friend WithEvents btnSubmitAns As Button
 	Friend WithEvents lblNotiCount As Label
 	Friend WithEvents btnPlayer As Button
+	Friend WithEvents btnHowToPlay As Button
 End Class

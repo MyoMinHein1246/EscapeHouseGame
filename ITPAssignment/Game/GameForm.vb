@@ -118,4 +118,9 @@
 		Dim PlayerForm As New PlayerForm(PlayerModel, RoomPresenter)
 		PlayerForm.ShowDialog(Me)
 	End Sub
+
+	Private Sub btnHowToPlay_Click(sender As Object, e As EventArgs) Handles btnHowToPlay.Click
+		Dim HowToPlayForm As New HowToPlayForm()
+		HowToPlayForm.ShowDialog(Me)
+	End Sub
 End Class
