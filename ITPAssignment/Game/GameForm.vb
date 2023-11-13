@@ -106,7 +106,7 @@
 	End Sub
 
 	Private Sub btnPlayer_Click(sender As Object, e As EventArgs) Handles btnPlayer.Click
-		Dim PlayerForm As New PlayerForm(PlayerModel)
+		Dim PlayerForm As New PlayerForm(PlayerModel, RoomPresenter)
 		PlayerForm.ShowDialog(Me)
 	End Sub
 End Class

@@ -1,11 +1,18 @@
-﻿Public Class PuzzleModel
-	Public ReadOnly Question As String
-	Public ReadOnly Answer As String
-	Public ReadOnly Hint As String
-	Public ReadOnly Rewards As List(Of ItemModel)
-	Private ReadOnly TriesBeforeHint As Integer
-	Private Tries As Integer
-	Private HasSolved As Boolean
+﻿Imports System.Text.Json.Serialization
+
+Public Class PuzzleModel
+	Public Property Question As String
+	Public Property Answer As String
+	Public Property Hint As String
+	Public Property Rewards As List(Of ItemModel)
+	Public Property TriesBeforeHint As Integer
+	Public Property Tries As Integer
+	Public Property HasSolved As Boolean
+
+	<JsonConstructor>
+	Public Sub New()
+
+	End Sub
 
 	Public Sub New(Question As String, Answer As String, ByRef Rewards As List(Of ItemModel), Optional Hint As String = "", Optional TriesBeforeHint As Integer = 3)
 		Me.Question = Question
@@ -30,10 +37,6 @@
 		End If
 
 		Return False
-	End Function
-
-	Public Function GetHasSolved() As Boolean
-		Return HasSolved
 	End Function
 
 	Public Shared Function Copy(OtherPuzzle As PuzzleModel) As PuzzleModel

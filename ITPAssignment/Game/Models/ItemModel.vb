@@ -1,17 +1,57 @@
-﻿Public MustInherit Class ItemModel
-	Protected Name As String
-	Protected LifeTime As Integer
+﻿Imports System.Text.Json.Serialization
 
-	Public MustOverride ReadOnly Property GetName As String
-	Public MustOverride ReadOnly Property GetLifeTime As Integer
+Public Class ItemModel
+	Private Property ItemData As ItemData
+
+	Public ReadOnly Property GetName As String
+		Get
+			Return ItemData.Name
+		End Get
+	End Property
+	Public ReadOnly Property GetLifeTime As Integer
+		Get
+			Return ItemData.LifeTime
+		End Get
+	End Property
+
+	<JsonConstructor>
+	Public Sub New()
+
+	End Sub
+
+	Public Sub New(ItemData As ItemData)
+		Me.ItemData = ItemData
+	End Sub
+
+	Public Sub New(Name As String, LifeTime As Integer)
+		Me.ItemData = New ItemData With {
+			.Name = Name,
+			.LifeTime = LifeTime
+		}
+	End Sub
 
 	Public Overridable Function CanUse() As Boolean
-		Return LifeTime > 0
+		Return GetLifeTime > 0
 	End Function
 
 	Public Overridable Sub Use()
-		LifeTime -= 1
+		' If item data is not '99999', making '99999' infinite
+		If Not ItemData.LifeTime = 99999 Then
+			ItemData.LifeTime -= 1
+		End If
 	End Sub
+
+	Public Function CopyData(Data As ItemData) As ItemModel
+		Me.ItemData = Data
+		Return Me
+	End Function
+
+	Public Function ComposeItemData() As ItemData
+		Return New ItemData With {
+			.Name = GetName,
+			.LifeTime = GetLifeTime
+		}
+	End Function
 
 	Public Overrides Function Equals(obj As Object) As Boolean
 		' Try to cast the obj to ItemModel
@@ -26,53 +66,12 @@
 	End Function
 End Class
 
-Public Class KeyItemModel
-	Inherits ItemModel
+Public Class ItemData
+	Public Property Name As String
+	Public Property LifeTime As Integer
 
-	Public Sub New(Name As String, LifeTime As Integer)
-		Me.Name = Name
-		Me.LifeTime = LifeTime
+	<JsonConstructor>
+	Public Sub New()
+
 	End Sub
-
-	Public Overrides ReadOnly Property GetName As String
-		Get
-			Return Name
-		End Get
-	End Property
-
-	Public Overrides ReadOnly Property GetLifeTime As Integer
-		Get
-			Return LifeTime
-		End Get
-	End Property
-End Class
-
-Public Class PasswordItemModel
-	Inherits ItemModel
-
-	Private ReadOnly Value As String
-
-	Public Sub New(Name As String, Value As String, LifeTime As Integer)
-		Me.Name = Name
-		Me.Value = Value
-		Me.LifeTime = LifeTime
-	End Sub
-
-	Public Overrides ReadOnly Property GetName As String
-		Get
-			Return Name
-		End Get
-	End Property
-
-	Public ReadOnly Property GetValue As String
-		Get
-			Return Value
-		End Get
-	End Property
-
-	Public Overrides ReadOnly Property GetLifeTime As Integer
-		Get
-			Return LifeTime
-		End Get
-	End Property
 End Class

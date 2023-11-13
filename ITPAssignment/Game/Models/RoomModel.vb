@@ -1,81 +1,89 @@
-﻿Public Class RoomModel
-	Private Name As String
+﻿Imports System.Text.Json.Serialization
+
+Public Class RoomModel
+	Private RoomData As RoomData
 	Public ReadOnly Property GetName() As String
 		Get
-			Return Name
+			Return RoomData.Name
 		End Get
 	End Property
-	Private Text As String
+
 	Public ReadOnly Property GetText() As String
 		Get
-			Return Text
+			Return RoomData.Text
 		End Get
 	End Property
-	Private FromRooms As List(Of String) ' Previous Rooms
+
 	Public ReadOnly Property GetFromRooms() As List(Of String)
 		Get
-			Return FromRooms
+			Return RoomData.FromRooms
 		End Get
 	End Property
+
 	Public ReadOnly Property HasFromRooms As Boolean
 		Get
-			Return Not IsNothing(FromRooms) AndAlso FromRooms.Count > 0
+			Return Not IsNothing(GetFromRooms) AndAlso GetFromRooms.Count > 0
 		End Get
 	End Property
-	Private ToRooms As List(Of String) ' Forward Rooms
+
 	Public ReadOnly Property GetToRooms() As List(Of String)
 		Get
-			Return ToRooms
+			Return RoomData.ToRooms
 		End Get
 	End Property
+
 	Public ReadOnly Property HasToRooms As Boolean
 		Get
-			Return Not IsNothing(ToRooms) AndAlso ToRooms.Count > 0
+			Return Not IsNothing(GetToRooms) AndAlso GetToRooms.Count > 0
 		End Get
 	End Property
+
 	Public ReadOnly Property GetAvailableRooms() As List(Of String)
 		Get
 			' If previous rooms are not null, and no room to go forward
 			If HasFromRooms And Not HasToRooms Then
 				' Return previous rooms
-				Return FromRooms
+				Return GetFromRooms
 			End If
 			' If previous rooms are null but forward room are not
 			If HasToRooms And Not HasFromRooms Then
 				' Return forward rooms
-				Return ToRooms
+				Return GetToRooms
 			End If
 
 			' If both room type are not null
 			' Return both
-			Return ToRooms.Concat(FromRooms).ToList()
+			Return GetToRooms.Concat(GetFromRooms).ToList()
 		End Get
 	End Property
-	Private Puzzle As PuzzleModel
+
 	Public ReadOnly Property GetPuzzle() As PuzzleModel
 		Get
-			Return Puzzle
+			Return RoomData.Puzzle
 		End Get
 	End Property
+
 	Public ReadOnly Property HasPuzzle() As Boolean
 		Get
-			Return Not IsNothing(Puzzle)
+			Return Not IsNothing(GetPuzzle)
 		End Get
 	End Property
+
 	Public ReadOnly Property HasPuzzleSolved() As Boolean
 		Get
-			Return Not HasPuzzle OrElse Puzzle.GetHasSolved
+			Return Not HasPuzzle OrElse GetPuzzle.HasSolved
 		End Get
 	End Property
-	Private RequiredItems As List(Of ItemModel)
+
 	Public ReadOnly Property GetRequiredItems() As List(Of ItemModel)
 		Get
-			Return RequiredItems
+			Return RoomData.RequiredItems
 		End Get
 	End Property
+
 	Public ReadOnly Property GetHasUnlocked() As Boolean
 		Get
-			Return IsNothing(RequiredItems) OrElse RequiredItems.Count = 0
+			Return IsNothing(GetRequiredItems) OrElse GetRequiredItems.Count = 0
 		End Get
 	End Property
 
@@ -90,7 +98,7 @@
 
 		' If keys or codes are required but player has none or item cannot be used
 		If IsNothing(item) Then
-			msg = $"'{Name}' is locked! Hmm... Seems like I will need a specific item for this one."
+			msg = $"'{RoomData.Name}' is locked! Hmm... Seems like I will need a specific item for this one."
 			Return False
 		ElseIf Not item.CanUse Then
 			msg = $"I cannot use '{item.GetName}' anymore."
@@ -98,9 +106,9 @@
 		End If
 
 		' Compare required item name with player's item
-		For i = 0 To RequiredItems.Count - 1
-			If RequiredItems(i).Equals(item) Then
-				RequiredItems.RemoveAt(i)
+		For i = 0 To GetRequiredItems.Count - 1
+			If GetRequiredItems(i).Equals(item) Then
+				GetRequiredItems.RemoveAt(i)
 				' Use the item
 				msg = "Yes! It worked!"
 				item.Use()
@@ -121,7 +129,7 @@
 	End Function
 
 	Public Function SolvePuzzle(Answer As String) As Boolean
-		Return Puzzle.Solve(Answer)
+		Return GetPuzzle.Solve(Answer)
 	End Function
 
 	Public Function IsForwardRoom(RoomName As String) As Boolean
@@ -129,7 +137,7 @@
 			Return False
 		End If
 
-		For Each ForwardRoom In ToRooms
+		For Each ForwardRoom In GetToRooms
 			If ForwardRoom.ToUpper.Equals(RoomName.ToUpper) Then
 				Return True
 			End If
@@ -138,61 +146,74 @@
 		Return False
 	End Function
 
+	Public Function CopyData(Data As RoomData) As RoomModel
+		Me.RoomData = Data
+		Return Me
+	End Function
+
+	Public Function ComposeRoomData() As RoomData
+		Return New RoomData With {
+			.Name = GetName,
+			.Text = GetText,
+			.FromRooms = GetFromRooms,
+			.ToRooms = GetToRooms,
+			.Puzzle = GetPuzzle,
+			.RequiredItems = GetRequiredItems
+		}
+	End Function
+
 	Public Class RoomBuilder
-		Private Name As String = ""
-		Private Text As String = ""
-		' TODO: add room picture
-		Private FromRooms As List(Of String) = Nothing
-		Private ToRooms As List(Of String) = Nothing
-		Private Puzzle As PuzzleModel = Nothing
-		Private RequiredItems As List(Of ItemModel) = Nothing
+		Private RoomData As New RoomData
 
 		Public Function WithName(Name As String) As RoomBuilder
-			Me.Name = Name
+			Me.RoomData.Name = Name
 
 			Return Me
 		End Function
 
 		Public Function WithText(Text As String) As RoomBuilder
-			Me.Text = Text
+			RoomData.Text = Text
 
 			Return Me
 		End Function
 
 		Public Function WithFromRooms(FromRooms As List(Of String)) As RoomBuilder
-			Me.FromRooms = FromRooms
+			RoomData.FromRooms = FromRooms
 
 			Return Me
 		End Function
 
 		Public Function WithToRooms(ToRooms As List(Of String)) As RoomBuilder
-			Me.ToRooms = ToRooms
+			RoomData.ToRooms = ToRooms
 
 			Return Me
 		End Function
 
 		Public Function WithPuzzle(Puzzle As PuzzleModel) As RoomBuilder
-			Me.Puzzle = PuzzleModel.Copy(Puzzle)
+			RoomData.Puzzle = PuzzleModel.Copy(Puzzle)
 			Return Me
 		End Function
 
 		Public Function WithRequiredItems(ByRef RequiredItems As List(Of ItemModel)) As RoomBuilder
-			Me.RequiredItems = RequiredItems
+			RoomData.RequiredItems = RequiredItems
 
 			Return Me
 		End Function
 
-		Public Function Build() As RoomModel
+		Public Function WithRoomData(RoomData As RoomData) As RoomBuilder
+			Me.RoomData = RoomData
+
+			Return Me
+		End Function
+
+		Public Function Build(Optional Replace As Boolean = False) As RoomModel
 			Dim Room As New RoomModel With {
-				.FromRooms = FromRooms,
-				.Name = Name,
-				.Puzzle = Puzzle,
-				.RequiredItems = RequiredItems,
-				.ToRooms = ToRooms,
-				.Text = Text
+				.RoomData = Me.RoomData
 			}
 
-			Return AddRoom(Room)
+			AddRoom(Room, Replace)
+
+			Return Room
 		End Function
 	End Class
 
@@ -211,4 +232,18 @@
 	Public Overrides Function GetHashCode() As Integer
 		Return HashCode.Combine(Me)
 	End Function
+End Class
+
+Public Class RoomData
+	Public Property Name As String
+	Public Property Text As String
+	Public Property FromRooms As List(Of String) ' Previous Rooms
+	Public Property ToRooms As List(Of String) ' Forward Rooms
+	Public Property Puzzle As PuzzleModel
+	Public Property RequiredItems As List(Of ItemModel)
+
+	<JsonConstructor>
+	Public Sub New()
+
+	End Sub
 End Class

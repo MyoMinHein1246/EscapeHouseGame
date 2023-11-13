@@ -41,7 +41,7 @@
 		Return False
 	End Function
 
-	Private Function EnterRoom(Room As RoomModel) As Boolean
+	Public Function EnterRoom(Room As RoomModel) As Boolean
 		' If Room has unlocked already
 		If Room.GetHasUnlocked Then
 			PlayerModel.ChangeRoom(Room)

@@ -19,9 +19,15 @@ Module Rooms
 		Return Nothing
 	End Function
 
-	Public Function AddRoom(Room As RoomModel) As RoomModel
+	Public Function AddRoom(Room As RoomModel, Optional Replace As Boolean = False) As RoomModel
+		' If replace and exist
+		If Replace And GameRooms.ContainsKey(Room?.GetName) Then
+			' Remove the room first
+			GameRooms.Remove(Room.GetName)
+		End If
+
 		' If this is new room
-		If Not GameRooms.ContainsKey(Room.GetName) Then
+		If Not GameRooms.ContainsKey(Room?.GetName) Then
 			' If adding succeed
 			If GameRooms.TryAdd(Room.GetName, Room) Then
 				Return Room

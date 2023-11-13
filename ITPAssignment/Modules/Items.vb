@@ -1,9 +1,9 @@
 ﻿Module Items
-	Public ComputerRoomKey As KeyItemModel
-	Public ArtRoomKey As KeyItemModel
+	Public ComputerRoomKey As ItemModel
+	Public ArtRoomKey As ItemModel
 
 	Public Sub GenerateItems()
-		ComputerRoomKey = New KeyItemModel("Computer Room Key", 1)
-		ArtRoomKey = New KeyItemModel("Art Room Key", 2)
+		ComputerRoomKey = New ItemModel("Computer Room Key", 1)
+		ArtRoomKey = New ItemModel("Art Room Key", 2)
 	End Sub
 End Module

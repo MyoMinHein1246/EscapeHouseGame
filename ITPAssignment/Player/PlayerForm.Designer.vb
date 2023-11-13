@@ -37,7 +37,7 @@ Partial Class PlayerForm
 		' lblCurrentRoom
 		' 
 		lblCurrentRoom.AutoSize = True
-		lblCurrentRoom.Font = New Font("Bookman Old Style", 16.0F, FontStyle.Bold, GraphicsUnit.Point)
+		lblCurrentRoom.Font = New Font("Bookman Old Style", 16F, FontStyle.Bold, GraphicsUnit.Point)
 		lblCurrentRoom.Location = New Point(8, 5)
 		lblCurrentRoom.Name = "lblCurrentRoom"
 		lblCurrentRoom.Size = New Size(213, 32)
@@ -95,14 +95,14 @@ Partial Class PlayerForm
 		' 
 		' PlayerForm
 		' 
-		AutoScaleDimensions = New SizeF(13.0F, 23.0F)
+		AutoScaleDimensions = New SizeF(13F, 23F)
 		AutoScaleMode = AutoScaleMode.Font
 		ClientSize = New Size(655, 460)
 		Controls.Add(btnLoad)
 		Controls.Add(btnSave)
 		Controls.Add(lsvInventory)
 		Controls.Add(lblCurrentRoom)
-		Font = New Font("Bookman Old Style", 12.0F, FontStyle.Regular, GraphicsUnit.Point)
+		Font = New Font("Bookman Old Style", 12F, FontStyle.Regular, GraphicsUnit.Point)
 		FormBorderStyle = FormBorderStyle.FixedDialog
 		Margin = New Padding(5, 3, 5, 3)
 		Name = "PlayerForm"
