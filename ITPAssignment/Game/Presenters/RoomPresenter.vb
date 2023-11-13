@@ -54,7 +54,7 @@
 			View.SecretAnswer = ""
 			View.RoomPicture = Room.RoomPicture
 			' Show noti of room's text
-			NotiPresenter.AddNotis(Room.GetTexts)
+			NotiPresenter.AddNotis(Room.GetTexts, SoundType:=SoundPresenter.SoundType.RoomEnter)
 			NotiPresenter.ShowNoti(True)
 
 			If Not Room.HasPuzzleSolved Then
@@ -72,7 +72,7 @@
 		View.SecretQuestion = "Please enter the item name to be used: "
 		View.SecretAnswer = ""
 		' Noti player
-		NotiPresenter.AddNoti("Ahh... I can't enter this room. It's locked! I need something to unlock it.")
+		NotiPresenter.AddNoti("Ahh... I can't enter this room. It's locked! I need something to unlock it.", SoundType:=SoundPresenter.SoundType.Wrong)
 		NotiPresenter.ShowNoti(ClearInEnd:=True)
 		Return False
 	End Function
@@ -80,9 +80,9 @@
 	Private Sub CheckGameOver()
 		If HasGameOver() Then
 			ShowInfoMsgBox("Congratulations! The game is over!", "Game Over")
-			NotiPresenter.AddNoti("You can wonder around this marvellous house freely!")
+			NotiPresenter.AddNoti("You can wonder around this marvellous house freely!", SoundType:=SoundPresenter.SoundType.GameOver)
 			NotiPresenter.ShowNoti(ClearInEnd:=True)
-		ElseIf IsInExitRoom Then
+		ElseIf IsInExitRoom() Then
 			NotiPresenter.AddNoti("Ahh... I need to solve this puzzle to WIN! I am sick of these puzzles!!!")
 			NotiPresenter.ShowNoti()
 		End If
@@ -114,7 +114,7 @@
 				If Not String.IsNullOrEmpty(item) Then
 					Dim ItemModel = PlayerModel.GetItem(item)
 					If IsNothing(ItemModel) Then
-						NotiPresenter.AddNoti($"Ohh... I don't have '{item}' in my inventory.")
+						NotiPresenter.AddNoti($"Ohh... I don't have '{item}' in my inventory.", SoundType:=SoundPresenter.SoundType.Wrong)
 						NotiPresenter.ShowNoti(ClearInEnd:=True)
 					End If
 					UnlockRoom(ItemModel, View.CurrentToRoomName)
@@ -140,14 +140,14 @@
 			View.SecretQuestion = ""
 			View.SecretAnswer = ""
 			' Stop previous noti
-			NotiPresenter.AddNoti("Yes! I solved it. Smart me.", 2000)
+			NotiPresenter.AddNoti("Yes! I solved it. Smart me.", 2000, SoundPresenter.SoundType.Unlock)
 			' Show noti of room's text
-			NotiPresenter.AddNotis(PlayerModel.GetCurrentRoom.GetTexts)
+			NotiPresenter.AddNotis(PlayerModel.GetCurrentRoom.GetTexts, SoundType:=SoundPresenter.SoundType.RoomEnter)
 			' Show noti
 			NotiPresenter.ShowNoti(True)
 		Else
 			' Show noti
-			NotiPresenter.AddNoti("Wrong! Ahh... I should try again.", 2000)
+			NotiPresenter.AddNoti("Wrong! Ahh... I should try again.", 2000, SoundPresenter.SoundType.Wrong)
 			' AskQuestion(PlayerModel.GetCurrentRoom.GetPuzzle.Question)
 
 			' If player might need hint
@@ -179,15 +179,19 @@
 			Return False
 		End If
 
-		Dim msg = ""
+		Dim noti As New NotiPresenter.Noti With {
+			.Text = "",
+			.SoundType = SoundPresenter.SoundType.Noti,
+			.Delay = 5000
+		}
 		' Try unlock
-		Dim result = Room.UnlockRoom(item, msg)
+		Dim result = Room.UnlockRoom(item, noti)
 
-		NotiPresenter.AddNoti(msg, 2000)
+		NotiPresenter.AddNoti(noti)
 
 		' If room was unlocked, but item is expired
 		If result AndAlso Not IsNothing(item) AndAlso Not item.CanUse Then
-			NotiPresenter.AddNoti($"Oh... I can't use '{item.GetName}' anymore.", 3000)
+			NotiPresenter.AddNoti($"Oh... I can't use '{item.GetName}' anymore.", 3000, SoundPresenter.SoundType.Wrong)
 		End If
 
 		NotiPresenter.ShowNoti(True, True)

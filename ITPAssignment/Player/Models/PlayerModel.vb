@@ -21,7 +21,7 @@ Public Class PlayerModel
 		End Get
 	End Property
 
-	Public Sub New(NotiPresenter As NotiPresenter, CurrentRoom As RoomModel, Optional Items As List(Of ItemModel) = Nothing, Optional UnlockedRooms As List(Of RoomModel) = Nothing)
+	Public Sub New(ByRef NotiPresenter As NotiPresenter, CurrentRoom As RoomModel, Optional Items As List(Of ItemModel) = Nothing, Optional UnlockedRooms As List(Of RoomModel) = Nothing)
 		' Initialise values
 		PlayerData = New PlayerData() With {
 						.Items = If(Items, New List(Of ItemModel)()),
@@ -43,7 +43,7 @@ Public Class PlayerModel
 	End Sub
 
 	Public Sub ClaimItem(Item As ItemModel)
-		NotiPresenter.AddNoti($"Wow! I found a new item.\n '{Item.GetName}' was added to your inventory.")
+		NotiPresenter.AddNoti($"Wow! I found a new item.\n '{Item.GetName}' was added to your inventory.", SoundType:=SoundPresenter.SoundType.GotItem)
 		For Each claimedItem In GetItems
 			If claimedItem.Equals(Item) Then
 				claimedItem.Add(Item.GetLifeTime)

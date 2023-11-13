@@ -88,21 +88,25 @@ Public Class RoomModel
 		End Get
 	End Property
 
-	Public Function UnlockRoom(ByRef item As ItemModel, ByRef msg As String) As Boolean
+	Public Function UnlockRoom(ByRef item As ItemModel, ByRef Noti As NotiPresenter.Noti) As Boolean
 
 		' If already unlocked
 		If GetHasUnlocked Then
 			' Do nothing
-			msg = "Ohh... It's already unlocked. Perfect!"
+			Noti.Text = "Ohh... It's already unlocked. Perfect!"
+			Noti.Delay = 1000
+			Noti.SoundType = SoundPresenter.SoundType.Unlock
 			Return True
 		End If
 
 		' If keys or codes are required but player has none or item cannot be used
 		If IsNothing(item) Then
-			msg = $"'{RoomData.Name}' is locked! Hmm... Seems like I will need a specific item for this one."
+			Noti.Text = $"'{RoomData.Name}' is locked! Hmm... Seems like I will need a specific item for this one."
+			Noti.SoundType = SoundPresenter.SoundType.Wrong
 			Return False
 		ElseIf Not item.CanUse Then
-			msg = $"No. I cannot use '{item.GetName}' anymore."
+			Noti.Text = $"No. I cannot use '{item.GetName}' anymore."
+			Noti.SoundType = SoundPresenter.SoundType.Wrong
 			Return False
 		End If
 
@@ -110,19 +114,21 @@ Public Class RoomModel
 		For index As Integer = 0 To GetRequiredItems.Count - 1
 			If GetRequiredItems(index).Equals(item) Then
 				' Use the item
-				msg = "Yes! It worked!"
+				Noti.Text = "Yes! It worked!"
+				Noti.SoundType = SoundPresenter.SoundType.UseItem
 				item.Use()
 				GetRequiredItems.RemoveAt(index)
 
 				If Not GetHasUnlocked Then
-					msg += " Are you kidding me? I need more items!!!"
+					Noti.Text += " Are you kidding me? I need more items!!!"
 				Else
-					msg += " I can enter now."
+					Noti.Text += " I can enter now."
 				End If
 				Exit For
 			Else
 				' Failed to unlock, readd the requirement
-				msg = "Ahh... Wrong one!"
+				Noti.Text = "Ahh... Wrong one!"
+				Noti.SoundType = SoundPresenter.SoundType.Wrong
 			End If
 		Next
 

@@ -16,17 +16,21 @@
 		NotiTexts.Clear()
 	End Sub
 
-	Public Sub AddNotis(Texts As List(Of String), Optional Delay As Double = 5000, Optional Format As Boolean = True)
+	Public Sub AddNotis(Texts As List(Of String), Optional Delay As Double = 5000, Optional SoundType As SoundPresenter.SoundType = SoundPresenter.SoundType.Noti, Optional Format As Boolean = True)
 		For Each noti In Texts
-			AddNoti(noti, Delay, Format)
+			AddNoti(noti, Delay, SoundType, Format)
 		Next
 	End Sub
 
-	Public Sub AddNoti(NotiText As String, Optional Delay As Double = 5000, Optional Format As Boolean = True)
+	Public Sub AddNoti(notiData As Noti)
+		NotiTexts.Enqueue(notiData)
+	End Sub
+
+	Public Sub AddNoti(NotiText As String, Optional Delay As Double = 5000, Optional SoundType As SoundPresenter.SoundType = SoundPresenter.SoundType.Noti, Optional Format As Boolean = True)
 		If Format Then
-			NotiTexts.Enqueue(New Noti(FormatText(NotiText), Delay))
+			AddNoti(New Noti(FormatText(NotiText), Delay, SoundType))
 		Else
-			NotiTexts.Enqueue(New Noti(NotiText, Delay))
+			AddNoti(New Noti(NotiText, Delay, SoundType))
 		End If
 		' Update View
 		View.NotiCount = NotiTexts.Count.ToString()
@@ -53,8 +57,8 @@
 			If Coundown <= 0 And Not IsNothing(CurrentNoti) Then
 				' Type next
 				View.NotiText = ""
-				SoundPresenter.PlaySoundOnce(SoundPresenter.SoundType.Noti)
 				Coundown = CurrentNoti.Delay
+				SoundPresenter.PlaySoundOnce(CurrentNoti.SoundType)
 				' Update View
 				View.NotiCount = NotiTexts.Count.ToString()
 				HasStarted = True
@@ -68,7 +72,7 @@
 		End If
 
 		If ClearInEnd Then
-			AddNoti("...", 1000, False)
+			AddNoti("...", 1000, Format:=False)
 		End If
 
 		If Interrupt Then
@@ -76,9 +80,9 @@
 		End If
 
 		If Not HasStarted Then
-			SoundPresenter.PlaySoundOnce(SoundPresenter.SoundType.Noti)
 			CurrentNoti = NotiTexts.Dequeue
 			Coundown = CurrentNoti.Delay
+			SoundPresenter.PlaySoundOnce(CurrentNoti.SoundType)
 			HasStarted = True
 			TypingTimer.Start()
 		End If
@@ -106,10 +110,12 @@
 	Public Structure Noti
 		Public Property Text As String
 		Public Property Delay As Double
+		Public Property SoundType As SoundPresenter.SoundType
 
-		Public Sub New(Text As String, Delay As Double)
+		Public Sub New(Text As String, Delay As Double, SoundType As SoundPresenter.SoundType)
 			Me.Text = Text
 			Me.Delay = Delay
+			Me.SoundType = SoundType
 		End Sub
 	End Structure
 End Class
