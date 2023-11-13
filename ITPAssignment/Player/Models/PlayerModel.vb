@@ -44,6 +44,13 @@ Public Class PlayerModel
 
 	Public Sub ClaimItem(Item As ItemModel)
 		NotiPresenter.AddNoti($"Wow! I found a new item.\n '{Item.GetName}' was added to your inventory.")
+		For Each claimedItem In GetItems
+			If claimedItem.Equals(Item) Then
+				claimedItem.Add(Item.GetLifeTime)
+				Return
+			End If
+		Next
+
 		GetItems.Add(Item)
 	End Sub
 

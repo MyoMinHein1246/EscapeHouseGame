@@ -41,6 +41,10 @@ Public Class ItemModel
 		End If
 	End Sub
 
+	Public Sub Add(LifeTime As Integer)
+		ItemData.LifeTime += LifeTime
+	End Sub
+
 	Public Function CopyData(Data As ItemData) As ItemModel
 		Me.ItemData = Data
 		Return Me

@@ -107,18 +107,19 @@ Public Class RoomModel
 		End If
 
 		' Compare required item name with player's item
-		For i = 0 To GetRequiredItems.Count - 1
-			If GetRequiredItems(i).Equals(item) Then
-				GetRequiredItems.RemoveAt(i)
+		For index As Integer = 0 To GetRequiredItems.Count - 1
+			If GetRequiredItems(index).Equals(item) Then
 				' Use the item
 				msg = "Yes! It worked!"
 				item.Use()
+				GetRequiredItems.RemoveAt(index)
 
 				If Not GetHasUnlocked Then
 					msg += " Are you kidding me? I need more items!!!"
 				Else
 					msg += " I can enter now."
 				End If
+				Exit For
 			Else
 				' Failed to unlock, readd the requirement
 				msg = "Ahh... Wrong one!"

@@ -4,6 +4,7 @@
 	' Reference to the model
 	Private ReadOnly PlayerModel As PlayerModel
 	Private ReadOnly NotiPresenter As NotiPresenter
+	Private GameOver As Boolean = False
 
 	Public Sub New(View As IRoomView, ByRef NotiPresenter As NotiPresenter, ByRef PlayerModel As PlayerModel)
 		' Assign the reference of the view
@@ -28,7 +29,7 @@
 
 		' If room valid
 		If Not IsNothing(Room) Then
-			' If room is not default room and current room puzzle is not solved
+			' If room is forward room and current room puzzle is not solved
 			If Not PlayerModel.GetCurrentRoom.HasPuzzleSolved And PlayerModel.GetCurrentRoom.IsForwardRoom(Room.GetName) Then
 				AskQuestion(PlayerModel.GetCurrentRoom.GetPuzzle.Question)
 				Return False
@@ -71,18 +72,27 @@
 		View.SecretQuestion = "Please enter the item name to be used: "
 		View.SecretAnswer = ""
 		' Noti player
-		UnlockRoom(Nothing, Room.GetName)
+		NotiPresenter.AddNoti("Ahh... I can't enter this room. It's locked! I need something to unlock it.")
+		NotiPresenter.ShowNoti(ClearInEnd:=True)
 		Return False
 	End Function
 
 	Private Sub CheckGameOver()
 		If HasGameOver() Then
-			NotiPresenter.AddNoti("- Congratulations! The game is over! You can wonder around this marvellous house freely!")
+			ShowInfoMsgBox("Congratulations! The game is over!", "Game Over")
+			NotiPresenter.AddNoti("You can wonder around this marvellous house freely!")
+			NotiPresenter.ShowNoti(ClearInEnd:=True)
+		ElseIf IsInExitRoom Then
+			NotiPresenter.AddNoti("Ahh... I need to solve this puzzle to WIN! I am sick of these puzzles!!!")
 			NotiPresenter.ShowNoti()
 		End If
 	End Sub
 
 	Private Function HasGameOver() As Boolean
+		Return IsInExitRoom() AndAlso PlayerModel.GetCurrentRoom.HasPuzzleSolved
+	End Function
+
+	Private Function IsInExitRoom() As Boolean
 		Return PlayerModel.GetCurrentRoom.Equals(GetExitRoom)
 	End Function
 
@@ -94,13 +104,17 @@
 		View.SecretQuestion = FormatText(Question)
 		View.SecretAnswer = ""
 		NotiPresenter.AddNoti("Hmm... I need to solve this problem to enter other rooms.")
-		NotiPresenter.ShowNoti(True)
+		NotiPresenter.ShowNoti()
 	End Sub
 
 	Public Sub TryUnlock()
 		' If current room's puzzle has been solved, allow player to move to other rooms
 		If PlayerModel.GetCurrentRoom.HasPuzzleSolved Then
-			UnlockRoom(PlayerModel.GetItem(View.SecretAnswer), View.CurrentToRoomName)
+			For Each item In View.SecretAnswer.Split(", ", StringSplitOptions.TrimEntries)
+				If Not String.IsNullOrEmpty(item) Then
+					UnlockRoom(PlayerModel.GetItem(item), View.CurrentToRoomName)
+				End If
+			Next
 		Else
 			' If not, ask to solve puzzle
 			SolveCurrentRoomPuzzle()
@@ -125,7 +139,7 @@
 			' Show noti of room's text
 			NotiPresenter.AddNotis(PlayerModel.GetCurrentRoom.GetTexts)
 			' Show noti
-			NotiPresenter.ShowNoti(True, True)
+			NotiPresenter.ShowNoti(True)
 		Else
 			' Show noti
 			NotiPresenter.AddNoti("Wrong! Ahh... I should try again.", 2000)
@@ -166,7 +180,8 @@
 
 		NotiPresenter.AddNoti(msg, 2000)
 
-		If Not IsNothing(item) AndAlso Not item.CanUse Then
+		' If room was unlocked, but item is expired
+		If result AndAlso Not IsNothing(item) AndAlso Not item.CanUse Then
 			NotiPresenter.AddNoti($"Oh... I can't use '{item.GetName}' anymore.", 3000)
 		End If
 
