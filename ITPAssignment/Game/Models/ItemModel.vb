@@ -70,10 +70,12 @@ Public Class ItemModel
 	End Function
 End Class
 
+' Holds the data that can be saved
 Public Class ItemData
 	Public Property Name As String
 	Public Property LifeTime As Integer
 
+	' Empty constructor for JSON converter
 	<JsonConstructor>
 	Public Sub New()
 

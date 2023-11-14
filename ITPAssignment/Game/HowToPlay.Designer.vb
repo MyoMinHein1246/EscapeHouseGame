@@ -26,10 +26,10 @@ Partial Class HowToPlayForm
 		Dim ListViewGroup1 As ListViewGroup = New ListViewGroup("Tips", HorizontalAlignment.Left)
 		Dim ListViewItem1 As ListViewItem = New ListViewItem("TIP: You can always view items you have by clicking 'Player' button.")
 		Dim ListViewItem2 As ListViewItem = New ListViewItem("TIP: If you don't know which items a room require, TRY BRUTE FORCE every items.")
-		Dim ListViewItem3 As ListViewItem = New ListViewItem("TIPS: Don't mind item names; they don't matter.")
+		Dim ListViewItem3 As ListViewItem = New ListViewItem("TIP: Don't mind item names; they don't matter.")
 		Dim ListViewItem4 As ListViewItem = New ListViewItem("TIP: Did you know that you can use more than one item by separating your input with comma.")
 		Dim ListViewItem5 As ListViewItem = New ListViewItem("TIP: Win the game by solving the puzzle from 'Exit' Room.")
-		Dim ListViewItem6 As ListViewItem = New ListViewItem("TIPS: Don't forget to save your progress")
+		Dim ListViewItem6 As ListViewItem = New ListViewItem("TIP: Don't forget to save your progress")
 		Dim ListViewGroup2 As ListViewGroup = New ListViewGroup("Credit", HorizontalAlignment.Left)
 		Dim ListViewGroup3 As ListViewGroup = New ListViewGroup("Bing Image Query", HorizontalAlignment.Left)
 		Dim ListViewItem7 As ListViewItem = New ListViewItem(New String() {"Sound Effect", "created using 'ChipTone'", "https://sfbgames.itch.io/chiptone"}, -1)
@@ -88,6 +88,7 @@ Partial Class HowToPlayForm
 		ListView1.Groups.AddRange(New ListViewGroup() {ListViewGroup1})
 		ListViewItem1.Group = ListViewGroup1
 		ListViewItem2.Group = ListViewGroup1
+		ListViewItem3.Group = ListViewGroup1
 		ListViewItem4.Group = ListViewGroup1
 		ListViewItem5.Group = ListViewGroup1
 		ListViewItem6.Group = ListViewGroup1

@@ -109,20 +109,27 @@
 	End Sub
 
 	Public Sub TryUnlock()
-		' If current room's puzzle has been solved, allow player to move to other rooms
+		' If current room's puzzle has been solved, try to unlock selected room in combo box
 		If PlayerModel.GetCurrentRoom.HasPuzzleSolved Then
+			' Split the response into array using comma
 			For Each item In View.SecretAnswer.Split(", ", StringSplitOptions.TrimEntries)
+				' If valid string
 				If Not String.IsNullOrEmpty(item) Then
+					' Try to get the item from player, whether or not has been claimed
 					Dim ItemModel = PlayerModel.GetItem(item)
+					' If not has claimed, not in inventory
 					If IsNothing(ItemModel) Then
+						' Show noti
 						NotiPresenter.AddNoti($"Ohh... I don't have '{item}' in my inventory.", SoundType:=SoundPresenter.SoundType.Wrong)
 						NotiPresenter.ShowNoti(ClearInEnd:=True)
 					End If
+
+					' Try to unlock the room using the item, even if it's nothing
 					UnlockRoom(ItemModel, View.CurrentToRoomName)
 				End If
 			Next
 		Else
-			' If not, ask to solve puzzle
+			' If current room puzzle is not solved, solve current puzzle
 			SolveCurrentRoomPuzzle()
 		End If
 	End Sub
@@ -134,6 +141,7 @@
 			Return
 		End If
 
+		' If the player successfully solbed the puzzle
 		If PlayerModel.GetCurrentRoom.SolvePuzzle(View.SecretAnswer) Then
 			' Grant player rewards
 			PlayerModel.ClaimItems(PlayerModel.GetCurrentRoom.GetPuzzle.Rewards)
@@ -149,6 +157,7 @@
 		Else
 			' Show noti
 			NotiPresenter.AddNoti("Wrong! Ahh... I should try again.", 2000, SoundPresenter.SoundType.Wrong)
+			' Ask Question again????
 			' AskQuestion(PlayerModel.GetCurrentRoom.GetPuzzle.Question)
 
 			' If player might need hint
@@ -156,17 +165,17 @@
 				' Show hint
 				NotiPresenter.AddNoti("HINT: " & PlayerModel.GetCurrentRoom.GetPuzzle.Hint)
 			End If
-
+			' Show pending notis
 			NotiPresenter.ShowNoti(True)
 		End If
-
 	End Sub
 
 	Public Function UnlockAndEnterRoom(item As ItemModel, RoomName As String) As Boolean
+		' If unlocked the room
 		If UnlockRoom(item, RoomName) Then
 			' Get current specified room
 			Dim Room As RoomModel = GetRoom(RoomName)
-
+			' Enter the room
 			Return EnterRoom(Room)
 		End If
 		Return False
@@ -175,31 +184,32 @@
 	Public Function UnlockRoom(item As ItemModel, RoomName As String) As Boolean
 		' Get current specified room
 		Dim Room As RoomModel = GetRoom(RoomName)
-
+		' If room is invalid
 		If IsNothing(Room) Then
 			Return False
 		End If
-
+		' Error or success noti, will be updated by Room.UnlockRoom
 		Dim noti As New NotiPresenter.Noti With {
 			.Text = "",
 			.SoundType = SoundPresenter.SoundType.Noti,
 			.Delay = 5000
 		}
 		' Try unlock
-		Dim result = Room.UnlockRoom(item, noti)
-
+		Dim HasUnlocked = Room.UnlockRoom(item, noti)
+		' Show error or success noti
 		NotiPresenter.AddNoti(noti)
 
-		' If room was unlocked, but item is expired
-		If result AndAlso Not IsNothing(item) AndAlso Not item.CanUse Then
+		' If room has been unlocked and the item is expired
+		If HasUnlocked AndAlso Not IsNothing(item) AndAlso Not item.CanUse Then
 			NotiPresenter.AddNoti($"Oh... I can't use '{item.GetName}' anymore.", 3000, SoundPresenter.SoundType.Wrong)
 		End If
-
+		' Show pending noti
 		NotiPresenter.ShowNoti(True, True)
-		Return result
+		Return HasUnlocked
 	End Function
 
 	Private Function GetToRoom() As RoomModel
+		' Get the current selected room
 		Return GetRoom(View.CurrentToRoomName)
 	End Function
 End Class

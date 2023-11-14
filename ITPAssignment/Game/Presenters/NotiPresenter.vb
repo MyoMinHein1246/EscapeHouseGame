@@ -49,14 +49,15 @@
 		ElseIf View.NotiText.Trim.Equals(CurrentNoti.Text.Trim()) And HasStarted Then
 			' If current noti is typed, try getting next
 			If Not NotiTexts.TryDequeue(CurrentNoti) Then
+				' If failed, update current noti
 				CurrentNoti = Nothing
 			End If
 			HasStarted = False
 		Else
 			' Wait for delay
 			Coundown -= TypingTimer.Interval
+			' If delay is over and there is noti to type
 			If Coundown <= 0 And Not IsNothing(CurrentNoti) Then
-				' Type next if any
 				Coundown = CurrentNoti.Delay
 				SoundPresenter.PlaySoundOnce(CurrentNoti.SoundType)
 				' Update View
@@ -109,6 +110,7 @@
 		End If
 	End Sub
 
+	' Holds the required data for notification
 	Public Structure Noti
 		Public Property Text As String
 		Public Property Delay As Double

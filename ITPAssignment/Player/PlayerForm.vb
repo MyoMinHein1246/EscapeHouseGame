@@ -22,6 +22,7 @@
 		End Get
 	End Property
 
+	' Manages player data
 	Private PlayerPresenter As PlayerPresenter
 	Private PlayerModel As PlayerModel
 
@@ -36,10 +37,12 @@
 	End Sub
 
 	Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
+		' Save the player data
 		PlayerPresenter.SavePlayerData()
 	End Sub
 
 	Private Sub btnLoad_Click(sender As Object, e As EventArgs) Handles btnLoad.Click
+		' Load the player data
 		PlayerPresenter.LoadPlayerData()
 	End Sub
 End Class

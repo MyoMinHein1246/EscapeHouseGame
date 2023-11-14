@@ -44,29 +44,37 @@ Public Class PlayerModel
 
 	Public Sub ClaimItem(Item As ItemModel)
 		NotiPresenter.AddNoti($"Wow! I found a new item.\n '{Item.GetName}' was added to your inventory.", SoundType:=SoundPresenter.SoundType.GotItem)
+		' Loop through claimed items
 		For Each claimedItem In GetItems
+			' If newly claimed item already exists in player's inventory
 			If claimedItem.Equals(Item) Then
+				' Add lifetime instead
 				claimedItem.Add(Item.GetLifeTime)
 				Return
 			End If
 		Next
-
+		' If newly claimed item is new, add to inventory
 		GetItems.Add(Item)
 	End Sub
 
 	Public Function GetItem(ItemName As String) As ItemModel
+		' Search the inventory
 		For Each item In GetItems
+			' If found?
 			If item.GetName.ToUpper.Equals(ItemName.ToUpper) Then
 				Return item
 			End If
 		Next
-
+		' Not found
 		Return Nothing
 	End Function
 
 	Public Sub ChangeRoom(Room As RoomModel)
+		' Update current room
 		PlayerData.CurrentRoom = Room
 
+		' Add the room to unlocked rooms, if not unlocked
+		' Loop already unlocked rooms
 		For Each UnlockedRoom In GetUnlockedRooms
 			' If this room is already unlocked
 			If UnlockedRoom.Equals(Room) Then
@@ -112,11 +120,13 @@ Public Class PlayerModel
 	End Function
 End Class
 
+' Holds the data that can be saved
 Public Class PlayerData
 	Public Property CurrentRoom As RoomModel
 	Public Property Items As List(Of ItemModel)
 	Public Property UnlockedRooms As List(Of RoomModel)
 
+	' Empty constructor for JSON converter
 	<JsonConstructor>
 	Public Sub New()
 

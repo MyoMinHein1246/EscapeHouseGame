@@ -1,6 +1,7 @@
 ﻿Imports System.Text.Json.Serialization
 
 Public Class PuzzleModel
+	' Holds the data that can be saved
 	Public Property Question As String
 	Public Property Answer As String
 	Public Property Hint As String
@@ -9,6 +10,7 @@ Public Class PuzzleModel
 	Public Property Tries As Integer
 	Public Property HasSolved As Boolean
 
+	' Empty constructor for JSON converter
 	<JsonConstructor>
 	Public Sub New()
 
@@ -29,18 +31,23 @@ Public Class PuzzleModel
 	End Function
 
 	Public Function Solve(Answer As String) As Boolean
+		' Update tries
 		Tries += 1
 
+		' Loop the player answer word by word
 		For Each word In Answer.Split(" ", StringSplitOptions.TrimEntries)
+			' If the player answer include the correct answer, whether or not current word equals to answer
 			If Me.Answer.ToUpper.Equals(word.ToUpper) Then
+				' Player nailed it
 				HasSolved = True
 				Return True
 			End If
 		Next
-
+		' Wrong answer
 		Return False
 	End Function
 
+	' Static function
 	Public Shared Function Copy(OtherPuzzle As PuzzleModel, Optional CopyRewards As Boolean = True) As PuzzleModel
 		' If other puzzle to copy is nothing
 		If IsNothing(OtherPuzzle) Then

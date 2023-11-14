@@ -20,12 +20,15 @@ Public Class SoundPresenter
 	End Sub
 
 	Public Sub PlaySoundOnce(Type As SoundType)
+		' Get the sound name from sound type
 		Dim SoundName = GetSoundName(Type)
 
+		' If sound invalid
 		If SoundName.Length = 0 Then
 			Return
 		End If
 
+		' Get the sound from resources, Check My Projects/Resources.resx
 		Dim soundLocation = ResourceManager.GetStream(SoundName)
 
 		' Check if the resource was found
@@ -33,7 +36,9 @@ Public Class SoundPresenter
 			Return
 		End If
 
+		' Make a new sound player using the sound
 		Dim soundPlayer = New SoundPlayer(soundLocation)
+		' Play the sound
 		soundPlayer.Play()
 	End Sub
 

@@ -117,16 +117,19 @@ Public Class RoomModel
 				Noti.Text = "Yes! It worked!"
 				Noti.SoundType = SoundPresenter.SoundType.UseItem
 				item.Use()
+				' Remove from requirements
 				GetRequiredItems.RemoveAt(index)
 
+				' If still not unlocked, this room require more than one item
 				If Not GetHasUnlocked Then
 					Noti.Text += " Are you kidding me? I need more items!!!"
 				Else
+					' It's fully unlocked
 					Noti.Text += " I can enter now."
 				End If
 				Exit For
 			Else
-				' Failed to unlock, readd the requirement
+				' Failed to unlock
 				Noti.Text = "Ahh... Wrong one!"
 				Noti.SoundType = SoundPresenter.SoundType.Wrong
 			End If
@@ -141,11 +144,13 @@ Public Class RoomModel
 	End Function
 
 	Public Function IsForwardRoom(RoomName As String) As Boolean
+		' If this room has not forward rooms to go
 		If Not HasToRooms Or IsNothing(RoomName) Then
 			Return False
 		End If
-
+		' Loop through forward rooms
 		For Each ForwardRoom In GetToRooms
+			' If exists
 			If ForwardRoom.ToUpper.Equals(RoomName.ToUpper) Then
 				Return True
 			End If
@@ -261,6 +266,7 @@ Public Class RoomModel
 	End Function
 End Class
 
+' Holds the data that can be saved
 Public Class RoomData
 	Public Property Name As String
 	Public Property Texts As New List(Of String)()
@@ -269,6 +275,7 @@ Public Class RoomData
 	Public Property Puzzle As PuzzleModel
 	Public Property RequiredItems As List(Of ItemModel)
 
+	' Empty constructor for JSON converter
 	<JsonConstructor>
 	Public Sub New()
 

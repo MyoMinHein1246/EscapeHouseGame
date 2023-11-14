@@ -3,19 +3,24 @@
 
 	Public Property AvailableRoomsName As List(Of String) Implements IRoomView.AvailableRoomsName
 		Get
+			' Get the list in combo box
 			Return cmbToRoom.Items.Cast(Of List(Of String))()
 		End Get
 		Set(value As List(Of String))
+			' Clear the combo box
 			cmbToRoom.Items.Clear()
+			' Add the new value
 			cmbToRoom.Items.AddRange(value.ToArray())
 		End Set
 	End Property
 
 	Public Property CurrentToRoomName As String Implements IRoomView.CurrentToRoomName
 		Get
+			' If something is selected return it, else nothing
 			Return cmbToRoom.SelectedItem?.ToString()
 		End Get
 		Set(value As String)
+			' Change selected item to value
 			cmbToRoom.SelectedItem = value
 		End Set
 	End Property
@@ -31,15 +36,19 @@
 
 	Public Property SecretQuestion As String Implements IRoomView.SecretQuestion
 		Get
+			' Get security question text
 			Return lblSecurityQuestion.Text
 		End Get
 		Set(value As String)
+			' If the value is not valid
 			If IsNothing(value) OrElse value.Trim().Length = 0 Then
+				' Clear the security text
 				lblSecurity.Text = ""
 			Else
+				' Enable
 				lblSecurity.Text = "Security:"
 			End If
-
+			' Change question to value
 			lblSecurityQuestion.Text = value
 		End Set
 	End Property
@@ -80,9 +89,13 @@
 		End Set
 	End Property
 
+	' Manages notifications
 	Public NotiPresenter As NotiPresenter
+	' Manages player data
 	Public PlayerModel As PlayerModel
+	' Manages room data
 	Public RoomPresenter As RoomPresenter
+	' Manages sound
 	Public SoundPresenter As SoundPresenter
 
 	Public Sub New()
@@ -90,9 +103,9 @@
 		' This call is required by the designer.
 		InitializeComponent()
 
-		' Add any initialization after the InitializeComponent() call.
+		' Generate rooms the game has with room images from My Projects/Resources.resx
 		GenerateRooms(My.Resources.ResourceManager)
-
+		' Initialise
 		SoundPresenter = New SoundPresenter(My.Resources.ResourceManager)
 		NotiPresenter = New NotiPresenter(Me, SoundPresenter)
 
@@ -101,16 +114,18 @@
 	End Sub
 
 	Private Sub btnEnterRoom_Click(sender As Object, e As EventArgs) Handles btnEnterRoom.Click
+		' Enter the current selected room
 		RoomPresenter.EnterRoom()
 	End Sub
 
 	Private Sub btnSubmitAns_Click(sender As Object, e As EventArgs) Handles btnSubmitAns.Click
-		' If room is selected try to unlock that room
+		' If a room is selected in combo box and current room puzzle is solved try to unlock that room
+		' Else try to solve the current room puzzle
 		RoomPresenter.TryUnlock()
 	End Sub
 
 	Private Sub txtAnswer_KeyDown(sender As Object, e As KeyEventArgs) Handles txtAnswer.KeyDown
-		' if enter key pressed
+		' If enter key pressed
 		If e.KeyCode = Keys.Return Then
 			' If room is selected try to unlock that room
 			RoomPresenter.TryUnlock()
