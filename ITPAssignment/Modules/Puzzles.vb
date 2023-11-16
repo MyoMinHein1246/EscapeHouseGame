@@ -54,7 +54,7 @@
 
 		' Exit
 		LetterEPuzzle = New PuzzleModel(
-			"The beginning of eternity, the end of time and space.\n The beginning of every end, and the end of every place.\n What am I?",
+			"The beginning of eternity, the end of time and space.\n The beginning of every end, and the end of every place.\n What am I?\n (Please solve this final puzzle to win the game.)",
 			"E",
 			New List(Of ItemModel) From {ExitKey},
 			10

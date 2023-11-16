@@ -63,7 +63,10 @@
 			End If
 
 			' Has player entered exit room?
-			CheckGameOver()
+			If IsInExitRoom() Then
+				NotiPresenter.AddNoti("Ahh... I need to solve this puzzle to WIN! I am sick of these puzzles!!!")
+				NotiPresenter.ShowNoti()
+			End If
 			Return True
 		End If
 
@@ -80,12 +83,9 @@
 	Private Sub CheckGameOver()
 		' Show noti
 		If HasGameOver() Then
-			ShowInfoMsgBox("Congratulations! The game is over!", "Game Over")
 			NotiPresenter.AddNoti("You can wonder around this marvellous house freely!", SoundType:=SoundPresenter.SoundType.GameOver)
 			NotiPresenter.ShowNoti(ClearInEnd:=True)
-		ElseIf IsInExitRoom() Then
-			NotiPresenter.AddNoti("Ahh... I need to solve this puzzle to WIN! I am sick of these puzzles!!!")
-			NotiPresenter.ShowNoti()
+			ShowInfoMsgBox("Congratulations! The game is over!", "Game Over")
 		End If
 	End Sub
 
@@ -153,6 +153,7 @@
 			' Show noti of room's text
 			NotiPresenter.AddNotis(PlayerModel.GetCurrentRoom.GetTexts, SoundType:=SoundPresenter.SoundType.RoomEnter)
 			' Show noti
+			CheckGameOver()
 			NotiPresenter.ShowNoti(True)
 		Else
 			' Show noti
@@ -199,9 +200,15 @@
 		' Show error or success noti
 		NotiPresenter.AddNoti(noti)
 
-		' If room has been unlocked and the item is expired
-		If HasUnlocked AndAlso Not IsNothing(item) AndAlso Not item.CanUse Then
-			NotiPresenter.AddNoti($"Oh... I can't use '{item.GetName}' anymore.", 3000, SoundPresenter.SoundType.Wrong)
+		' If room has been unlocked
+		If HasUnlocked Then
+			' Update View
+			View.SecretQuestion = ""
+			View.SecretAnswer = ""
+			' If the item is expired
+			If Not IsNothing(item) AndAlso Not item.CanUse Then
+				NotiPresenter.AddNoti($"Oh... I can't use '{item.GetName}' anymore.", 3000, SoundPresenter.SoundType.Wrong)
+			End If
 		End If
 		' Show pending noti
 		NotiPresenter.ShowNoti(True, True)

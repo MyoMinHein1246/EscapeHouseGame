@@ -39,6 +39,7 @@
 			If Model.LoadPlayerData(data) Then
 				RoomPresenter.EnterRoom(Model.GetCurrentRoom)
 				ShowPlayerInventory()
+				ShowInfoMsgBox("Player data loaded successfully!")
 			End If
 			Return True
 		End If

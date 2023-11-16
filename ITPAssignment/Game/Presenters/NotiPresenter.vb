@@ -56,14 +56,18 @@
 		Else
 			' Wait for delay
 			Coundown -= TypingTimer.Interval
-			' If delay is over and there is noti to type
-			If Coundown <= 0 And Not IsNothing(CurrentNoti) Then
-				Coundown = CurrentNoti.Delay
-				SoundPresenter.PlaySoundOnce(CurrentNoti.SoundType)
+			' If delay is over
+			If Coundown <= 0 Then
+				' If there is noti to type
+				If Not IsNothing(CurrentNoti) Then
+					Coundown = CurrentNoti.Delay
+					SoundPresenter.PlaySoundOnce(CurrentNoti.SoundType)
+					HasStarted = True
+				End If
+
 				' Update View
 				View.NotiText = ""
 				View.NotiCount = NotiTexts.Count.ToString()
-				HasStarted = True
 			End If
 		End If
 	End Sub
